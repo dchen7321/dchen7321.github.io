@@ -62,7 +62,7 @@
 <!--<video playsinline autoplay muted loop id="bgvid">
     <source src="video/test1.mp4" type="video/mp4">
 </video>-->
-	<body id = "bodytext">
+	<body>
 		<div id="flipclock" class="clock"></div>
 
 		<script type="text/javascript">
@@ -81,7 +81,6 @@
 			var twelvepmtofourflag = false;
 			var fourpmtoeightflag = false;
 			var eightpmtotwelveflag = false;
-			console.log("Hello");
 			
 			function timeUpdate()
 			{
@@ -90,38 +89,58 @@
 					var time = new Date();
 					if(twelveamtoeightflag == false && time.getHours() >= 0 && time.getHours() < 8)
 					{
+						document.body.style.backgroundImage = "url('video/giphy.gif')";
 						document.getElementById("music").src = "music/8AM12PM.mp3";
 						twelveamtoeightflag = true;
+						eightamtotwelveflag = false;
+						twelvepmtofourflag = false;
+						fourpmtoeightflag = false;
 						eightpmtotwelveflag = false;
 					}
 					else if(eightamtotwelveflag == false && time.getHours() >= 8 && time.getHours() < 12)
 					{
+						document.body.style.backgroundImage = "url('video/giphy.gif')";
 						document.getElementById("music").src ="music/8AM12PM.mp3";
 						eightamtotwelveflag = true;
 						twelveamtoeightflag = false;
+						twelvepmtofourflag = false;
+						fourpmtoeightflag = false;
+						eightpmtotwelveflag = false;
 					}
 					else if(twelvepmtofourflag == false && time.getHours() >= 12 && time.getHours() < 16)
 					{
+						document.body.style.backgroundImage = "url('video/giphy.gif')";
 						document.getElementById("music").src = "music/12PM4PM.mp3";
 						twelvepmtofourflag = true;
 						eightamtotwelveflag = false;
+						fourpmtoeightflag = false;
+						eightpmtotwelveflag = false;
+						twelveamtoeightflag = false;
 					}
 					else if(fourpmtoeightflag == false && time.getHours() >= 16 && time.getHours() < 20)
 					{
+						document.body.style.backgroundImage = "url('video/giphy.gif')";
 						document.getElementById("music").src = "music/4PM8PM.mp3";
 						fourpmtoeightflag = true;
 						twelvepmtofourflag = false;
+						eightpmtotwelveflag = false;
+						twelveamtoeightflag = false;
+						eightamtotwelveflag = false;
 					}
 					else if (eightpmtotwelveflag == false && time.getHours() >= 20 && time.getHours() < 24)
 					{
+						document.body.style.backgroundImage = "url('video/giphy.gif')";
 						document.getElementById("music").src = "music/4PM8PM.mp3";
 						eightpmtotwelveflag = true;
 						fourpmtoeightflag = false;
+						twelveamtoeightflag = false;
+						eightamtotwelveflag = false;
+						twelvepmtofourflag = false;
 					}
 				}
 				catch(e)
 				{
-					document.getElementById("bodytext").innerHTML = e.message;
+					console.log(e.message);
 				}
 			}
 			
