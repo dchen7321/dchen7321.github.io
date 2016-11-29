@@ -62,7 +62,7 @@
 <!--<video playsinline autoplay muted loop id="bgvid">
     <source src="video/test1.mp4" type="video/mp4">
 </video>-->
-	<body>
+	<body id = "bodytext">
 		<div id="flipclock" class="clock"></div>
 
 		<script type="text/javascript">
@@ -76,12 +76,55 @@
 				});
 			});
 
+			var twelveamtoeightflag = false;
+			var eightamtotwelveflag = false;
+			var twelvepmtofourflag = false;
+			var fourpmtoeightflag = false;
+			var eightpmtotwelveflag = false;
+			console.log("Hello");
+			
 			function timeUpdate()
 			{
-				var time = new Date();
-				var audiosource = getElementbyid("music");
+				try
+				{
+					var time = new Date();
+					if(twelveamtoeightflag == false && time.getHours() >= 0 && time.getHours() < 8)
+					{
+						document.getElementById("music").src = "music/8AM12PM.mp3";
+						twelveamtoeightflag = true;
+						eightpmtotwelveflag = false;
+					}
+					else if(eightamtotwelveflag == false && time.getHours() >= 8 && time.getHours() < 12)
+					{
+						document.getElementById("music").setAttribute("src","music/8AM12PM.mp3");
+						eightamtotwelveflag = true;
+						twelveamtoeightflag = false;
+					}
+					else if(twelvepmtofourflag == false && time.getHours() >= 12 && time.getHours() < 16)
+					{
+						document.getElementById("music").setAttribute("src","music/12PM4PM.mp3");
+						twelvepmtofourflag = true;
+						eightamtotwelveflag = false;
+					}
+					else if(fourpmtoeightflag == false && time.getHours() >= 16 && time.getHours() < 20)
+					{
+						document.getElementById("music").setAttribute("src","music/4PM8PM.mp3");
+						fourpmtoeightflag = true;
+						twelvepmtofourflag = false;
+					}
+					else if (eightpmtotwelveflag == false && time.getHours() >= 20 && time.getHours() < 24)
+					{
+						document.getElementById("music").setAttribute("src","music/4PM8PM.mp3");
+						eightpmtotwelveflag = true;
+						fourpmtoeightflag = false;
+					}
+				}
+				catch(e)
+				{
+					document.getElementById("bodytext").innerHTML = e.message;
+				}
 			}
-
+			
 			/*function changeColor()
 			{
 				var time = new Date();
@@ -104,18 +147,17 @@
 				}
 				document.body.style.backgroundColor = "rgb("+colors[0] + "," + colors[1] + "," + colors[2] + ")";
 				console.log("event fired. color get:" + colors[0] + colors[1] + colors[2]);
-			}
-
-
+			}*/
+			
 			window.onload=function()
 			{
-				changeColor();
-				setInterval(changeColor,200);
-			}*/
+				timeUpdate();
+				setInterval(timeUpdate,100);
+			}
 		</script>
 		<!--<embed src="music/test1.mp3" autostart="true" loop="true" hidden = "true">-->
-		<audio hidden autoplay loop id="music">
-			<source src="music/test1.mp3" type="audio/mpeg">
+		<audio id="music" hidden autoplay loop>
+			<!--<source id="music" src="" type="audio/mpeg">-->
 			Your browser does not support the audio element.
 		</audio>
 		<!--<video id="bgVideo" controls preload="true" autoplay loop muted>
