@@ -28,7 +28,33 @@
         	bottom: 0px;
         	right: 0px;
         }
+        .wrapper 
+        {
+        	width: 250px;
+        	height: 250px;
+        	text-align: center;
+        }
 
+        .wrapper img 
+        {
+        	margin: 4% 0;
+        	height: 92%;
+        	width: auto;
+        	-webkit-transition: margin 0.3s, height 0.3s;
+        	-moz-transition: margin 0.3s, height 0.3s;
+        	-o-transition: margin 0.3s, height 0.3s;
+        	transition: margin 0.3s, height 0.3s;
+        }
+
+        .wrapper img:hover 
+        {
+        	margin: 0;
+        	height: 100%;
+        	-webkit-transition: margin 0.3s, height 0.3s;
+        	-moz-transition: margin 0.3s, height 0.3s;
+        	-o-transition: margin 0.3s, height 0.3s;
+        	transition: margin 0.3s, height 0.3s;
+        }
         /*video#bgvid { 
             position: fixed;
             top: 50%;
@@ -182,7 +208,7 @@
 		<!--<video id="bgVideo" controls preload="true" autoplay loop muted>
 			<source src="video/test1.mp4" type="video/mp4" > 
 		</video>-->
-		<div id = "logo">
+		<div id = "logo" class = "wrapper">
 			<a href="https://soundcloud.com/suh-hyun-kwon">
 				<img src="logo.png" width="250" height="250" border="0">
 			</a>
