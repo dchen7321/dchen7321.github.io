@@ -96,25 +96,25 @@
 					}
 					else if(eightamtotwelveflag == false && time.getHours() >= 8 && time.getHours() < 12)
 					{
-						document.getElementById("music").setAttribute("src","music/8AM12PM.mp3");
+						document.getElementById("music").src ="music/8AM12PM.mp3";
 						eightamtotwelveflag = true;
 						twelveamtoeightflag = false;
 					}
 					else if(twelvepmtofourflag == false && time.getHours() >= 12 && time.getHours() < 16)
 					{
-						document.getElementById("music").setAttribute("src","music/12PM4PM.mp3");
+						document.getElementById("music").src = "music/12PM4PM.mp3";
 						twelvepmtofourflag = true;
 						eightamtotwelveflag = false;
 					}
 					else if(fourpmtoeightflag == false && time.getHours() >= 16 && time.getHours() < 20)
 					{
-						document.getElementById("music").setAttribute("src","music/4PM8PM.mp3");
+						document.getElementById("music").src = "music/4PM8PM.mp3";
 						fourpmtoeightflag = true;
 						twelvepmtofourflag = false;
 					}
 					else if (eightpmtotwelveflag == false && time.getHours() >= 20 && time.getHours() < 24)
 					{
-						document.getElementById("music").setAttribute("src","music/4PM8PM.mp3");
+						document.getElementById("music").src = "music/4PM8PM.mp3";
 						eightpmtotwelveflag = true;
 						fourpmtoeightflag = false;
 					}
