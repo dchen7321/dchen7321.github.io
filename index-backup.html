@@ -1,0 +1,112 @@
+<html>
+	<style type="text/css"> 
+        #flipclock
+        {
+        	width: 460px;
+        	height: 100px;
+        	padding: 20px;
+        	position: absolute;
+        	top: 50%;
+        	left: 50%;
+        	margin: -140px 0 0 -500px;
+        }
+        .clock
+        {
+        	transform-origin: 0 0;
+        	transform: scale(2);
+        	-ms-transform: scale(2);
+        	-webkit-transform-origin: 0 0;
+        	-webkit-transform: scale(2);
+        	-o-transform-origin: 0 0;
+        	-o-transform: scale(2);
+        	-moz-transform-origin: 0 0;
+        	-moz-transform: scale(2);
+        }
+        /*video#bgvid { 
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            -ms-transform: translateX(-50%) translateY(-50%);
+            -moz-transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+            background: url(polina.jpg) no-repeat;
+            background-size: cover; 
+        }*/
+        /*body 
+        {
+        	background-image:url('video/giphy.gif');
+        	background-position: center;
+        	background-size: cover;
+        }*/
+    </style>
+	<head>
+		<link rel="stylesheet" href="compiled/flipclock.css">
+
+		<script src="compiled/jqueryv1.11.1.js"></script>
+
+		<script src="compiled/flipclock.js"></script>		
+	</head>
+<!--<video playsinline autoplay muted loop id="bgvid">
+    <source src="video/test1.mp4" type="video/mp4">
+</video>-->
+	<body>
+		<div id="flipclock" class="clock"></div>
+
+		<script type="text/javascript">
+			var clock;
+			
+			$(document).ready(function() {
+				clock = $('.clock').FlipClock({
+					clockFace: 'TwentyFourHourClock',
+					showSeconds: true
+
+				});
+			});
+
+			/*function changeColor()
+			{
+				var time = new Date();
+				var milliseconds = (time.getHours() * 360000) + (time.getMinutes() * 6000) + (time.getSeconds() * 100) + time.getMilliseconds();
+				var color = (milliseconds * 2).toString(16);
+				document.body.style.backgroundColor = color;
+			}
+			*/
+			/*function changeColor()
+			{
+				console.log('event fired');
+				var colors = [0, 0, 0];
+				var hour = new Date().getHours();
+				console.log(hour);
+				var color = parseInt(255/24*hour);
+				console.log(color);
+				for(var i = 0; i < colors.length; i++) 
+				{
+					colors[i] = color;
+				}
+				document.body.style.backgroundColor = "rgb("+colors[0] + "," + colors[1] + "," + colors[2] + ")";
+				console.log("event fired. color get:" + colors[0] + colors[1] + colors[2]);
+			}
+
+
+			window.onload=function()
+			{
+				changeColor();
+				setInterval(changeColor,200);
+			}*/
+		</script>
+		<!--<embed src="music/test1.mp3" autostart="true" loop="true" hidden = "true">-->
+		<audio hidden autoplay loop>
+			<source src="music/test1.mp3" type="audio/mpeg">
+			Your browser does not support the audio element.
+		</audio>
+		<!--<video id="bgVideo" controls preload="true" autoplay loop muted>
+			<source src="video/test1.mp4" type="video/mp4" > 
+		</video>-->
+	</body>
+</html>
