@@ -92,7 +92,7 @@
     <source src="video/test1.mp4" type="video/mp4">
 </video>-->
 	<body>
-		<div text-align = center>
+		<div align = center>
 			<p id="date" style = "font-size: 100pt; font-family: 'Century Gothic'">
 				Your browser does not support the date.
 			</p>
@@ -165,7 +165,7 @@
 				{
 					var time = new Date();
 
-					document.getElementById("date").innerHTML = monthIntToString(time.getMonth()) + " " + time.getDate() + ", " + time.getYear();
+					document.getElementById("date").innerHTML = monthIntToString(time.getMonth()) + " " + time.getDate() + ", " + time.getFullYear();
 
 
 					if(twelveamtoeightflag == false && time.getHours() >= 0 && time.getHours() < 8)
