@@ -1,5 +1,20 @@
 /* Get the bourbon mixin from http://bourbon.io */
 /* Reset */
+.flip-clock-wrapper ul {
+  background: #fff;
+}
+
+.flip-clock-wrapper ul li a div.up:after {
+  background-color: #fff;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.flip-clock-wrapper ul li a div div.inn {
+  color: #111;
+  text-shadow: 0 1px 1px #555;
+  background-color: #ddd;
+}
+
 .flip-clock-wrapper * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
