@@ -92,8 +92,8 @@
     <source src="video/test1.mp4" type="video/mp4">
 </video>-->
 	<body>
-		<div align = center>
-			<p id="date" style = "font-size: 100pt; font-family: 'Century Gothic'">
+		<div align = left>
+			<p id="date" style = "font-size: 100pt; font-family: 'Century Gothic', 'Helvetica Neue'; color: 'white'">
 			</p>
 		</div>
 		<div id="flipclock" class="clock"></div>
@@ -114,40 +114,40 @@
 				switch(integer)
 				{
 					case 0:
-					return "Jan";
+					return "JAN";
 					break;
 					case 1:
-					return "Feb";
+					return "FEB";
 					break;
 					case 2:
-					return "Mar";
+					return "MAR";
 					break;
 					case 3:
-					return "Apr";
+					return "APR";
 					break;
 					case 4:
-					return "May";
+					return "MAY";
 					break;
 					case 5:
-					return "Jun";
+					return "JUN";
 					break;
 					case 6:
-					return "Jul";
+					return "JUL";
 					break;
 					case 7:
-					return "Aug";
+					return "AUG";
 					break;
 					case 8:
-					return "Sep";
+					return "SEP";
 					break;
 					case 9:
-					return "Oct";
+					return "OCT";
 					break;
 					case 10:
-					return "Nov";
+					return "NOV";
 					break;
 					case 11:
-					return "Dec";
+					return "DEC";
 					break;
 				}
 			}
@@ -164,7 +164,7 @@
 				{
 					var time = new Date();
 
-					document.getElementById("date").innerHTML = monthIntToString(time.getMonth()) + " " + time.getDate() + ", " + time.getFullYear();
+					document.getElementById("date").innerHTML = monthIntToString(time.getMonth()) + "." + time.getDate() + "." + time.getFullYear();
 
 
 					if(twelveamtoeightflag == false && time.getHours() >= 0 && time.getHours() < 8)
