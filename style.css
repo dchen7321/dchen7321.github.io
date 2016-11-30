@@ -1,22 +1,39 @@
-.countdown-wrapper {
+.countdown
+{
+  transform-origin: 0 0;
+  transform: scale(0.75);
+  -ms-transform: scale(1);
+  -webkit-transform-origin: 0 0;
+  -webkit-transform: scale(0.75);
+  -o-transform-origin: 0 0;
+  -o-transform: scale(0.75);
+  -moz-transform-origin: 0 0;
+  -moz-transform: scale(0.75);
+}
+
+.countdown-wrapper 
+{
   left: 50%;
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
 }
 
-.countdown.flip-clock-wrapper ul {
+.countdown.flip-clock-wrapper ul 
+{
   height: 144px;
   margin: 0 10px;
   width: 96px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
 }
 
-.countdown.flip-clock-wrapper ul li {
+.countdown.flip-clock-wrapper ul li 
+{
   line-height: 144px;
 }
 
-.countdown.flip-clock-wrapper ul li a div div.inn {
+.countdown.flip-clock-wrapper ul li a div div.inn 
+{
   background-color: #000;
   color: #FFFFFF;
   font-size: 120px;
@@ -24,16 +41,19 @@
 }
 
 .countdown.flip-clock-wrapper ul,
-.countdown.flip-clock-wrapper ul li a div div.inn {
+.countdown.flip-clock-wrapper ul li a div div.inn 
+{
   border-radius: 8px;
 }
 
-.countdown.flip-clock-wrapper ul li a div.down {
+.countdown.flip-clock-wrapper ul li a div.down 
+{
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
 }
 
-.countdown.flip-clock-wrapper ul li a div.up:after {
+.countdown.flip-clock-wrapper ul li a div.up:after 
+{
   top: 71px;
 }
 
