@@ -1,14 +1,14 @@
 .countdown
 {
   transform-origin: 0 0;
-  transform: scale(0.7);
+  transform: scale(0.65);
   -ms-transform: scale(1);
   -webkit-transform-origin: 0 0;
-  -webkit-transform: scale(0.7);
+  -webkit-transform: scale(0.65);
   -o-transform-origin: 0 0;
-  -o-transform: scale(0.7);
+  -o-transform: scale(0.65);
   -moz-transform-origin: 0 0;
-  -moz-transform: scale(0.7);
+  -moz-transform: scale(0.65);
 }
 
 .countdown-wrapper 
