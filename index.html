@@ -72,7 +72,7 @@
             background: url(polina.jpg) no-repeat;
             background-size: cover; 
         }*/
-        body 
+        body 	
         {
         	background-image:url('video/giphy.gif');
         	background-position: center;
@@ -92,6 +92,9 @@
     <source src="video/test1.mp4" type="video/mp4">
 </video>-->
 	<body>
+		<p id="date" style = "font-size: 50pt">
+
+		</p>
 		<div id="flipclock" class="clock"></div>
 
 		<script type="text/javascript">
@@ -105,6 +108,49 @@
 				});
 			});
 
+			function monthIntToString(integer)
+			{
+				switch(integer)
+				{
+					case 0:
+					return "Jan";
+					break;
+					case 1:
+					return "Feb";
+					break;
+					case 2:
+					return "Mar";
+					break;
+					case 3:
+					return "Apr";
+					break;
+					case 4:
+					return "May";
+					break;
+					case 5:
+					return "Jun";
+					break;
+					case 6:
+					return "Jul";
+					break;
+					case 7:
+					return "Aug";
+					break;
+					case 8:
+					return "Sep";
+					break;
+					case 9:
+					return "Oct";
+					break;
+					case 10:
+					return "Nov";
+					break;
+					case 11:
+					return "Dec";
+					break;
+				}
+			}
+
 			var twelveamtoeightflag = false;
 			var eightamtotwelveflag = false;
 			var twelvepmtofourflag = false;
@@ -116,6 +162,10 @@
 				try
 				{
 					var time = new Date();
+
+					document.getElementById("date").innerHTML = monthIntToString(time.getMonth()) + " " + time.getDate() + ", " + time.getYear();
+
+
 					if(twelveamtoeightflag == false && time.getHours() >= 0 && time.getHours() < 8)
 					{
 						document.body.style.backgroundImage = "url('video/giphy5.gif')";
