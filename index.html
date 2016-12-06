@@ -66,14 +66,14 @@
         }
     </style>
 	<head>
-		<link rel="stylesheet" href="compiled/flipclock.css">
+		<link rel="stylesheet" href="css/flipclock.css">
 		<!--<link rel="stylesheet" href="customclock.css">-->
 		<!--<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.7/flipclock.css'>-->
-		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="css/style.css">
 
-		<script src="compiled/jqueryv1.11.1.js"></script>
+		<script src="js/jqueryv1.11.1.js"></script>
 
-		<script src="compiled/flipclock.js"></script>
+		<script src="js/flipclock.js"></script>
 
 		<link rel="icon" href="logo.png">
 	</head>
@@ -167,7 +167,7 @@
 					if(twelveamtoeightflag == false && time.getHours() >= 0 && time.getHours() < 4)
 					{
 						document.body.style.backgroundImage = "url('video/12AM-4AM.gif')";
-						document.getElementById("music").src = "music/12AM-4AM.mp3";
+						document.getElementById("music").src = "music/12AM4AM.mp3";
 						twelveamtofourflag = true;
 						fouramtoeightflag = false;
 						eightamtotwelveflag = false;
@@ -178,7 +178,7 @@
 					else if(twelveamtoeightflag == false && time.getHours() >= 4 && time.getHours() < 8)
 					{
 						document.body.style.backgroundImage = "url('video/4AM-8AM.gif')";
-						document.getElementById("music").src = "music/4AM-8AM.mp3";
+						document.getElementById("music").src = "music/4AM8AM.mp3";
 						fouramtoeightflag = true;
 						twelveamtofourflag = false
 						eightamtotwelveflag = false;
