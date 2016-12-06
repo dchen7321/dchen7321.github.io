@@ -192,7 +192,7 @@
 						document.body.style.backgroundImage = "url('video/8AM-12PM.gif')";
 						document.getElementById("music").src ="music/8AM12PM.mp3";
 						eightamtotwelveflag = true;
-						twelveamtoeightflag = false;
+						twelveamtofourflag = false;
 						twelvepmtofourflag = false;
 						fourpmtoeightflag = false;
 						eightpmtotwelveflag = false;
@@ -206,7 +206,7 @@
 						eightamtotwelveflag = false;
 						fourpmtoeightflag = false;
 						eightpmtotwelveflag = false;
-						twelveamtoeightflag = false;
+						twelveamtofourflag = false;
 						fouramtoeightflag = false;
 					}
 					else if(fourpmtoeightflag == false && time.getHours() >= 16 && time.getHours() < 20)
@@ -216,7 +216,7 @@
 						fourpmtoeightflag = true;
 						twelvepmtofourflag = false;
 						eightpmtotwelveflag = false;
-						twelveamtoeightflag = false;
+						twelveamtofourflag = false;
 						eightamtotwelveflag = false;
 						fouramtoeightflag = false;
 					}
@@ -226,7 +226,7 @@
 						document.getElementById("music").src = "music/4PM8PM.mp3";
 						eightpmtotwelveflag = true;
 						fourpmtoeightflag = false;
-						twelveamtoeightflag = false;
+						twelveamtofourflag = false;
 						eightamtotwelveflag = false;
 						twelvepmtofourflag = false;
 						fouramtoeightflag = false;
