@@ -148,7 +148,8 @@
 				}
 			}
 
-			var twelveamtoeightflag = false;
+			var twelveamtofourflag = false;
+			var fouramtoeightflag = false;
 			var eightamtotwelveflag = false;
 			var twelvepmtofourflag = false;
 			var fourpmtoeightflag = false;
@@ -163,15 +164,26 @@
 					document.getElementById("date").innerHTML = monthIntToString(time.getMonth()) + "." + time.getDate() + "." + time.getFullYear();
 
 
-					if(twelveamtoeightflag == false && time.getHours() >= 0 && time.getHours() < 8)
+					if(twelveamtoeightflag == false && time.getHours() >= 0 && time.getHours() < 4)
 					{
 						document.body.style.backgroundImage = "url('video/giphy5.gif')";
 						document.getElementById("music").src = "music/8AM12PM.mp3";
-						twelveamtoeightflag = true;
+						twelveamtofourflag = true;
+						fouramtoeightflag = false;
 						eightamtotwelveflag = false;
 						twelvepmtofourflag = false;
 						fourpmtoeightflag = false;
 						eightpmtotwelveflag = false;
+					}
+					else if(twelveamtoeightflag == false && time.getHours() >= 4 && time.getHours() < 8)
+					{
+						fouramtoeightflag = true;
+						twelveamtofourflag = false
+						eightamtotwelveflag = false;
+						twelvepmtofourflag = false;
+						fourpmtoeightflag = false;
+						eightpmtotwelveflag = false;
+
 					}
 					else if(eightamtotwelveflag == false && time.getHours() >= 8 && time.getHours() < 12)
 					{
@@ -182,6 +194,7 @@
 						twelvepmtofourflag = false;
 						fourpmtoeightflag = false;
 						eightpmtotwelveflag = false;
+						fouramtoeightflag = false;
 					}
 					else if(twelvepmtofourflag == false && time.getHours() >= 12 && time.getHours() < 16)
 					{
@@ -192,6 +205,7 @@
 						fourpmtoeightflag = false;
 						eightpmtotwelveflag = false;
 						twelveamtoeightflag = false;
+						fouramtoeightflag = false;
 					}
 					else if(fourpmtoeightflag == false && time.getHours() >= 16 && time.getHours() < 20)
 					{
@@ -202,6 +216,7 @@
 						eightpmtotwelveflag = false;
 						twelveamtoeightflag = false;
 						eightamtotwelveflag = false;
+						fouramtoeightflag = false;
 					}
 					else if (eightpmtotwelveflag == false && time.getHours() >= 20 && time.getHours() < 24)
 					{
@@ -212,6 +227,7 @@
 						twelveamtoeightflag = false;
 						eightamtotwelveflag = false;
 						twelvepmtofourflag = false;
+						fouramtoeightflag = false;
 					}
 				}
 				catch(e)
