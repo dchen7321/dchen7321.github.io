@@ -164,7 +164,7 @@
 					document.getElementById("date").innerHTML = monthIntToString(time.getMonth()) + "." + time.getDate() + "." + time.getFullYear();
 
 
-					if(twelveamtoeightflag == false && time.getHours() >= 0 && time.getHours() < 4)
+					if(twelveamtofourflag == false && time.getHours() >= 0 && time.getHours() < 4)
 					{
 						document.body.style.backgroundImage = "url('video/12AM-4AM.gif')";
 						document.getElementById("music").src = "music/12AM4AM.mp3";
@@ -175,7 +175,7 @@
 						fourpmtoeightflag = false;
 						eightpmtotwelveflag = false;
 					}
-					else if(twelveamtoeightflag == false && time.getHours() >= 4 && time.getHours() < 8)
+					else if(fouramtoeightflag == false && time.getHours() >= 4 && time.getHours() < 8)
 					{
 						document.body.style.backgroundImage = "url('video/4AM8AM.gif')";
 						document.getElementById("music").src = "music/4AM8AM.mp3";
