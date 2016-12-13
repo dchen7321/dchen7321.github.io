@@ -81,7 +81,7 @@
 
 		<script src="js/flipclock.js"></script>
 
-		<link rel="icon" href="logo.png">
+		<link rel="icon" href="funicon.png">
 	</head>
 <!--<video playsinline autoplay muted loop id="bgvid">
     <source src="video/test1.mp4" type="video/mp4">
@@ -154,12 +154,7 @@
 				}
 			}
 
-			var twelveamtofourflag = false;
-			var fouramtoeightflag = false;
-			var eightamtotwelveflag = false;
-			var twelvepmtofourflag = false;
-			var fourpmtoeightflag = false;
-			var eightpmtotwelveflag = false;
+			var flags = [false, false, false, false, false, false];
 			
 			function timeUpdate()
 			{
@@ -167,75 +162,45 @@
 				{
 					var time = new Date();
 
-					document.getElementById("date").innerHTML = monthIntToString(time.getMonth()) + "." + time.getDate() + "." + time.getFullYear();
+					document.getElementById("date").innerHTML = monthIntToString(time.getMonth()) + "." + time.getDate().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) + "." + time.getFullYear();
 
 
-					if(twelveamtofourflag == false && time.getHours() >= 0 && time.getHours() < 4)
+					if(flags[0] == false && time.getHours() >= 0 && time.getHours() < 4)
 					{
 						document.body.style.backgroundImage = "url('video/12AM4AM.gif')";
 						document.getElementById("music").src = "music/12AM4AM.mp3";
-						twelveamtofourflag = true;
-						fouramtoeightflag = false;
-						eightamtotwelveflag = false;
-						twelvepmtofourflag = false;
-						fourpmtoeightflag = false;
-						eightpmtotwelveflag = false;
+						resetAllOtherFlags(0);
 					}
-					else if(fouramtoeightflag == false && time.getHours() >= 4 && time.getHours() < 8)
+					else if(flags[1] == false && time.getHours() >= 4 && time.getHours() < 8)
 					{
 						document.body.style.backgroundImage = "url('video/4AM8AM.gif')";
 						document.getElementById("music").src = "music/4AM8AM.mp3";
-						fouramtoeightflag = true;
-						twelveamtofourflag = false
-						eightamtotwelveflag = false;
-						twelvepmtofourflag = false;
-						fourpmtoeightflag = false;
-						eightpmtotwelveflag = false;
+						resetAllOtherFlags(1);
 
 					}
-					else if(eightamtotwelveflag == false && time.getHours() >= 8 && time.getHours() < 12)
+					else if(flags[2] == false && time.getHours() >= 8 && time.getHours() < 12)
 					{
 						document.body.style.backgroundImage = "url('video/8AM12PM.gif')";
 						document.getElementById("music").src ="music/8AM12PM.mp3";
-						eightamtotwelveflag = true;
-						twelveamtofourflag = false;
-						twelvepmtofourflag = false;
-						fourpmtoeightflag = false;
-						eightpmtotwelveflag = false;
-						fouramtoeightflag = false;
+						resetAllOtherFlags(2);
 					}
-					else if(twelvepmtofourflag == false && time.getHours() >= 12 && time.getHours() < 16)
+					else if(flags[3] == false && time.getHours() >= 12 && time.getHours() < 16)
 					{
 						document.body.style.backgroundImage = "url('video/12PM4PM.gif')";
 						document.getElementById("music").src = "music/12PM4PM.mp3";
-						twelvepmtofourflag = true;
-						eightamtotwelveflag = false;
-						fourpmtoeightflag = false;
-						eightpmtotwelveflag = false;
-						twelveamtofourflag = false;
-						fouramtoeightflag = false;
+						resetAllOtherFlags(3);
 					}
-					else if(fourpmtoeightflag == false && time.getHours() >= 16 && time.getHours() < 20)
+					else if(flags[4] == false && time.getHours() >= 16 && time.getHours() < 20)
 					{
 						document.body.style.backgroundImage = "url('video/4PM8PM.gif')";
 						document.getElementById("music").src = "music/4PM8PM.mp3";
-						fourpmtoeightflag = true;
-						twelvepmtofourflag = false;
-						eightpmtotwelveflag = false;
-						twelveamtofourflag = false;
-						eightamtotwelveflag = false;
-						fouramtoeightflag = false;
+						resetAllOtherFlags(4);
 					}
-					else if (eightpmtotwelveflag == false && time.getHours() >= 20 && time.getHours() < 24)
+					else if (flags[5] == false && time.getHours() >= 20 && time.getHours() < 24)
 					{
 						document.body.style.backgroundImage = "url('video/8PM12AM.gif')";
 						document.getElementById("music").src = "music/4PM8PM.mp3";
-						eightpmtotwelveflag = true;
-						fourpmtoeightflag = false;
-						twelveamtofourflag = false;
-						eightamtotwelveflag = false;
-						twelvepmtofourflag = false;
-						fouramtoeightflag = false;
+						resetAllOtherFlags(5);
 					}
 				}
 				catch(e)
@@ -244,6 +209,20 @@
 				}
 			}
 			
+			function resetAllOtherFlags(number)
+			{
+				for(var s in flags)
+				{
+					if(s != number)
+					{
+						flags[s] = false;
+					}
+					else
+					{
+						flags[s] = true;
+					}
+				}
+			}
 			/*function changeColor()
 			{
 				var time = new Date();
