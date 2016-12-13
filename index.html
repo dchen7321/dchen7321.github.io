@@ -16,6 +16,21 @@
         	left: 50%;
         	margin: -125px 0 0 -125px;
         }
+        #date
+        {
+        	font-size: 60pt; 
+        	font-family: 'Century Gothic', 'Helvetica Neue'; 
+        	color: #ffffff; 
+        	font-weight: bold
+        }
+        #datediv
+        {
+        	padding-top: 25px;
+        }
+        #playbutton
+        {
+        	visibility: hidden;
+        }
         .wrapper 
         {
         	width: 250px;
@@ -49,46 +64,32 @@
         	src: url('font/century-gothic.ttf'),
         	url('font/century-gothic.eot');
         }
-        /*video#bgvid { 
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -100;
-            -ms-transform: translateX(-50%) translateY(-50%);
-            -moz-transform: translateX(-50%) translateY(-50%);
-            -webkit-transform: translateX(-50%) translateY(-50%);
-            transform: translateX(-50%) translateY(-50%);
-            background: url(polina.jpg) no-repeat;
-            background-size: cover; 
-        }*/
         body 	
         {
         	background-position: center;
         	background-size: cover;
         }
+        @media only screen and (max-device-width: 480px)
+        {
+        	#playbutton
+        	{
+        		visibility: show;
+        	}
+        }
+
     </style>
 	<head>
 		<link rel="stylesheet" href="css/flipclock.css">
-		<!--<link rel="stylesheet" href="customclock.css">-->
-		<!--<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.7/flipclock.css'>-->
 		<link rel="stylesheet" href="css/style.css">
 
 		<script src="js/jqueryv1.11.1.js"></script>
-
 		<script src="js/flipclock.js"></script>
 
 		<link rel="icon" href="funicon.png">
 	</head>
-<!--<video playsinline autoplay muted loop id="bgvid">
-    <source src="video/test1.mp4" type="video/mp4">
-</video>-->
 	<body>
-		<div align = center style = "padding-top: 25px">
-			<p id="date" style = "font-size: 60pt; font-family: 'Century Gothic', 'Helvetica Neue'; color: #ffffff; font-weight: bold">
+		<div id="datediv" align = center>
+			<p id="date">
 			</p>
 		</div>
 
@@ -96,6 +97,12 @@
 			<a href="https://soundcloud.com/suh-hyun-kwon">
 				<img src="logo.png" width="500" height="500" border="0">
 			</a>
+		</div>
+
+		<div id="playbutton">
+			<a onclick="document.getElementById('music').play()" class="button">
+				<img src="playbutton.png">
+			</a>​
 		</div>
 
 		<div id="flipclock" class="countdown"></div>
@@ -223,50 +230,13 @@
 					}
 				}
 			}
-			/*function changeColor()
-			{
-				var time = new Date();
-				var milliseconds = (time.getHours() * 360000) + (time.getMinutes() * 6000) + (time.getSeconds() * 100) + time.getMilliseconds();
-				var color = (milliseconds * 2).toString(16);
-				document.body.style.backgroundColor = color;
-			}
-			*/
-			/*function changeColor()
-			{
-				console.log('event fired');
-				var colors = [0, 0, 0];
-				var hour = new Date().getHours();
-				console.log(hour);
-				var color = parseInt(255/24*hour);
-				console.log(color);
-				for(var i = 0; i < colors.length; i++) 
-				{
-					colors[i] = color;
-				}
-				document.body.style.backgroundColor = "rgb("+colors[0] + "," + colors[1] + "," + colors[2] + ")";
-				console.log("event fired. color get:" + colors[0] + colors[1] + colors[2]);
-			}*/
-			
 			window.onload=function()
 			{
 				timeUpdate();
 				setInterval(timeUpdate,1000);
 			}
 		</script>
-		<!--<embed src="music/test1.mp3" autostart="true" loop="true" hidden = "true">-->
-		<audio id="music" hidden autoplay loop>
-			<!--<source id="music" src="" type="audio/mpeg">-->
-			Hello
+		<audio id="music" hidden loop>
 		</audio>
-		<!--<video id="bgVideo" controls preload="true" autoplay loop muted>
-			<source src="video/test1.mp4" type="video/mp4" > 
-		</video>-->
-		<!--
-		<div id = "logo" class = "wrapper">
-			<a href="https://soundcloud.com/suh-hyun-kwon">
-				<img src="logo.png" width="350" height="350" border="0">
-			</a>
-		</div>
-		-->
 	</body>
 </html>
