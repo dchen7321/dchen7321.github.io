@@ -21,7 +21,7 @@
 		</div>
 
 		<div id="playbutton" class = "wrapper">
-			<a onclick="document.getElementById('music').play()" class="button">
+			<a onclick="aud_play_pause()" class="button">
 				<img src="playbutton.png" width="400" height="400" border="0">
 			</a>​
 		</div>
@@ -150,6 +150,20 @@
 					{
 						flags[s] = true;
 					}
+				}
+			}
+			function aud_play_pause() 
+			{
+				var myAudio = document.getElementById("music");
+				if (myAudio.paused) 
+				{
+					myAudio.play();
+					document.getElementById("playbutton").src = "pausebutton.png"
+				} 
+				else 
+				{
+					myAudio.pause();
+					document.getElementById("playbutton").src = "playbutton.png"
 				}
 			}
 			window.onload=function()
