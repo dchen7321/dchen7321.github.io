@@ -21,7 +21,7 @@
 		</div>
 
 		<div id="playbutton" class = "wrapper">
-			<a onclick="aud_play_pause()" class="button">
+			<a onclick="audiocontrol()" class="button">
 				<img id = "playbuttonimg" src="playbutton.png">
 			</a>​
 		</div>
@@ -152,7 +152,7 @@
 					}
 				}
 			}
-			function aud_play_pause() 
+			function audiocontrol() 
 			{
 				var myAudio = document.getElementById("music");
 				if (myAudio.paused) 
