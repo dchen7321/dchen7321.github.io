@@ -95,7 +95,7 @@
   height: 100px;
   width: 900px;
   position: absolute;
-  bottom: 90px;
+  bottom: 5%;
   left: 50%;
   margin: -140 0 0 -250px;
 }
@@ -115,7 +115,7 @@
 }
 #datediv
 {
-  padding-top: 25px;
+  padding-top: 0%;
 }
 #playbutton
 {
@@ -168,6 +168,8 @@ body
     bottom: 35%;
     left: 50%;
     margin: -100px 0 0 -100px;
+    width: 250px;
+    height: 250px;
   }
   #logo
   {
