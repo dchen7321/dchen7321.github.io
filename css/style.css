@@ -167,12 +167,12 @@ body
     position: absolute;
     bottom: 35%;
     left: 50%;
-    margin: -100px 0 0 -100px;
+    margin: -50px 0 0 -50px;
   }
   #playbuttonimg
   {
-    width: 400px;
-    height: 400px;
+    width: 200px;
+    height: 200px;
   }
   #logo
   {
