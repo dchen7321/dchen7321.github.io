@@ -184,7 +184,7 @@ body
   }
   #logosize
   {
-    width: 600px;
-    height: 600px;
+    width: 600;
+    height: 600;
   }
 }
