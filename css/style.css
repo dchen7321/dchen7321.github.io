@@ -117,6 +117,11 @@
 {
   padding-top: 0%;
 }
+#logosize
+{
+  width: 500px;
+  height: 500px;
+}
 #playbutton
 {
   visibility: hidden;
@@ -181,5 +186,10 @@ body
   #datediv
   {
     padding-top: 5px;
+  }
+  #logosize
+  {
+    width: 700px;
+    height: 700px;
   }
 }
