@@ -117,11 +117,6 @@
 {
   padding-top: 0%;
 }
-#logosize
-{
-  width: 500px;
-  height: 500px;
-}
 #playbutton
 {
   visibility: hidden;
@@ -189,7 +184,7 @@ body
   }
   #logosize
   {
-    width: 700px;
-    height: 700px;
+    width: 600px;
+    height: 600px;
   }
 }
