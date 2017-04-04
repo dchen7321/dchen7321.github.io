@@ -60,12 +60,12 @@ function CanvasImage(imageID, position) {
 			mouse.y > this.absolutey - (this.h / 2) &&
 			mouse.y < this.absolutey + (this.h / 2)) {
 			if(this.resize < 30) {
-				this.resize += 6;
+				this.resize += 10;
 				this.resizeUpdate();
 			}
 		}
 		else if(this.resize > 0) {
-			this.resize--;
+			this.resize -= 5;
 			this.resizeUpdate();
 		}
 	}
