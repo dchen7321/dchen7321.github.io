@@ -6,6 +6,7 @@ var ctx = [canvas[0].getContext("2d"),
 		   canvas[1].getContext("2d"),
 		   canvas[2].getContext("2d"),
 		   canvas[3].getContext("2d")];
+var currentIndex = 0;
 var images = [new Array(4), new Array(4), new Array(4), new Array(4)];
 var keyImage;
 var sizeFactor = 100;
@@ -91,17 +92,20 @@ function handleResize() {
     		images[i][j].resizeUpdate();
     	}
     }
+    keyImage.resizeUpdate();
 }
 
-function update() {
-	for(i=0; i<4; i++) {
-		ctx[i].clearRect(0, 0, canvas[i].width, canvas[i].height);
-		for(j=0; j<4; j++) {
-			images[i][j].mouseOverUpdate();
-			ctx[i].drawImage(images[i][j].img, images[i][j].x, images[i][j].y, images[i][j].w, images[i][j].h);
-		}
-		ctx[i].drawImage(keyImage.img, keyImage.x, keyImage.y, keyImage.w, keyImage.h);
+function update(input) {
+	ctx[input].clearRect(0, 0, canvas[input].width, canvas[input].height);
+	for(j=0; j<4; j++) {
+		images[input][j].mouseOverUpdate();
+		ctx[input].drawImage(images[input][j].img, 
+							 images[input][j].x, 
+							 images[input][j].y, 
+							 images[input][j].w, 
+							 images[input][j].h);
 	}
+	ctx[input].drawImage(keyImage.img, keyImage.x, keyImage.y, keyImage.w, keyImage.h);
 }
 
 window.requestAnimFrame = (function(){
@@ -111,7 +115,7 @@ window.requestAnimFrame = (function(){
 	window.oRequestAnimationFrame      || 
 	window.msRequestAnimationFrame     || 
 	function( callback ){
-		window.setTimeout(callback, 1000 / 30);
+		window.setTimeout(callback, 1000 / 60);
 	};
 })();
 
@@ -123,8 +127,28 @@ window.onload = function() {
 	}
 	keyImage = new CanvasImage("key", 5);
 	handleResize();
+	for(i=0; i<4; i++) {
+		update(i);
+	}
 	(function animloop(){
 		requestAnimFrame(animloop);
-		update();	
+		update(currentIndex);	
 	})();
 };
+
+$('.carousel').on('slid.bs.carousel', function () {
+
+  // This variable contains all kinds of data and methods related to the carousel
+  var carouselData = $(this).data('bs.carousel');
+  // EDIT: Doesn't work in Boostrap >= 3.2
+  //var currentIndex = carouselData.getActiveIndex();
+  currentIndex = carouselData.getItemIndex(carouselData.$element.find('.item.active'));
+  var total = carouselData.$items.length;
+  // Create the text we want to display.
+  // We increment the index because humans don't count like machines
+  var text = (currentIndex + 1) + " of " + total;
+
+  // You have to create a HTML element <div id="carousel-index"></div>
+  // under your carousel to make this work
+  $('#carousel-index').text(text);
+});
