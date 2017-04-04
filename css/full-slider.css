@@ -15,6 +15,10 @@ body {
     height: 100%;
 }
 
+.navbar-nav {
+    font-family: "Century Gothic", "sans serif";
+}
+
 .carousel-inner {
     height: 100%;
     background-color: #FBCA41;
@@ -50,3 +54,24 @@ footer {
     width: 100%;
     height: 100%;
 }
+
+@font-face {
+  font-family: "Your typeface";
+  src: url("type/filename.eot");
+  src: local("☺"),
+    url("type/filename.woff") format("woff"),
+    url("type/filename.otf") format("opentype"),
+    url("type/filename.svg#filename") format("svg");
+  }
+
+@font-face {
+  font-family: "Your italic typeface";
+  src: url("type/filename-ital.eot");
+  src: local("☺"),
+    url("type/filename-ital.woff") format("woff"),
+    url("type/filename-ital.otf") format("opentype"),
+    url("type/filename-ital.svg#filename-ital") format("svg");
+  }
+h2 { font-family: "Your typeface", Georgia, serif; }
+h2 em { font-family: "Your italic typeface", Georgia, serif; }
+em { font-style: italic; }

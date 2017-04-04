@@ -23,19 +23,19 @@ function CanvasImage(imageID, position) {
 	this.updatePosition = function() {
 		if(position == 1) {
 			this.absolutex = (canvas[0].width / 2);
-			this.absolutey = 150;
+			this.absolutey = 125;
 		}
 		if(position == 2) {
 			this.absolutex = 400;
-			this.absolutey = (canvas[0].height / 2);
+			this.absolutey = (canvas[0].height / 2) - 25;
 		}
 		if(position == 3) {
 			this.absolutex = canvas[0].width - 400;
-			this.absolutey = (canvas[0].height / 2);
+			this.absolutey = (canvas[0].height / 2) - 25;
 		}
 		if(position == 4) {
 			this.absolutex = (canvas[0].width / 2); 
-			this.absolutey = canvas[0].height - 150;
+			this.absolutey = canvas[0].height - 175;
 		}
 		if(position == 5) {
 			this.absolutex = canvas[0].width + 400;
@@ -93,6 +93,9 @@ function handleResize() {
     	}
     }
     keyImage.resizeUpdate();
+    for(i=0; i<4; i++) {
+    	update(i);
+    }
 }
 
 function update(input) {
@@ -127,9 +130,6 @@ window.onload = function() {
 	}
 	keyImage = new CanvasImage("key", 5);
 	handleResize();
-	for(i=0; i<4; i++) {
-		update(i);
-	}
 	(function animloop(){
 		requestAnimFrame(animloop);
 		update(currentIndex);	
