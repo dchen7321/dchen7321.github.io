@@ -9,7 +9,7 @@ var ctx = [canvas[0].getContext("2d"),
 var currentIndex = 0;
 var images = [new Array(4), new Array(4), new Array(4), new Array(4)];
 var keyImage;
-var sizeFactor = 100;
+var sizeFactor = 110;
 var mouse = {};
 
 function CanvasImage(imageID, position) {
@@ -38,8 +38,8 @@ function CanvasImage(imageID, position) {
 			this.absolutey = canvas[0].height - 175;
 		}
 		if(position == 5) {
-			this.absolutex = canvas[0].width + 400;
-			this.absolutey = 158;
+			this.absolutex = canvas[0].width / 2;
+			this.absolutey = canvas[0].height / 2;
 			this.h = 215;
 			this.w = this.h * this.aspectRatio;
 		}
@@ -86,7 +86,7 @@ function handleResize() {
     	canvas[i].width = w;
     	canvas[i].height = h;
     }
-    sizeFactor = sizeFactor * wRatio
+    //sizeFactor = sizeFactor * wRatio
     for(i=0; i<4; i++) {
     	for(j=0; j<4; j++) {
     		images[i][j].resizeUpdate();
@@ -132,7 +132,7 @@ window.onload = function() {
 	handleResize();
 	(function animloop(){
 		requestAnimFrame(animloop);
-		update(currentIndex);	
+		update(currentIndex);
 	})();
 };
 
