@@ -114,19 +114,15 @@ function handleResize() {
     	}
     }
     keyImage.resizeUpdate();
-    for(i=0; i<4; i++) {
+    ctx[currentIndex].globalAlpha = fadeAlpha;
+    for(i=1; i<4; i++) {
     	update(i);
-    }
-    for(i=0; i<4; i++) {
-    	if(i != currentIndex) {
-    		ctx[i].globalAlpha = 1.0;
-    	}
     }
 }
 
 function update(input) {
 	ctx[input].clearRect(0, 0, canvas[input].width, canvas[input].height);
-	if(fadeAlpha < 1.0) {
+	if(fadeAlpha < 1.0 && input == currentIndex) {
 		fadeAlpha += 0.04;
 		ctx[input].globalAlpha = fadeAlpha
 	}
