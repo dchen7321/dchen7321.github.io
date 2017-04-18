@@ -12,13 +12,15 @@ var keyImage;
 var sizeFactor = 110;
 var mouse = {};
 
-function CanvasImage(imageID, position) {
+function CanvasImage(imageID, position, infoID) {
 	this.img = document.getElementById(imageID);
 	this.aspectRatio = this.img.width / this.img.height;
 	this.h = sizeFactor;
 	this.w = this.h * this.aspectRatio;
 	this.position = position;
 	this.resize = 0;
+	this.alpha = 0;
+	this.info = document.getElementById(infoID);
 
 	this.updatePosition = function() {
 		if(position == 1) {
@@ -38,9 +40,9 @@ function CanvasImage(imageID, position) {
 			this.absolutey = canvas[0].height - 175;
 		}
 		if(position == 5) {
-			this.absolutex = canvas[0].width / 2;
-			this.absolutey = canvas[0].height / 2;
-			this.h = 215;
+			this.absolutex = canvas[0].width - 300;
+			this.absolutey = 150;
+			this.h = 125;
 			this.w = this.h * this.aspectRatio;
 		}
 		this.x = this.absolutex - (this.w / 2);
@@ -61,13 +63,31 @@ function CanvasImage(imageID, position) {
 			mouse.y > this.absolutey - (this.h / 2) &&
 			mouse.y < this.absolutey + (this.h / 2)) {
 			if(this.resize < 40) {
-				this.resize += 8;
+				this.resize += 4;
 				this.resizeUpdate();
 			}
+			if(this.alpha < 1.0) {
+				this.alpha += 0.1;
+			}
+			ctx[currentIndex].globalAlpha = this.alpha;
+			ctx[currentIndex].drawImage(this.info, 
+								 (canvas[currentIndex].width / 2) - 267, 
+								 (canvas[currentIndex].height / 2) - 180, 
+								 535, 
+								 321);
+			ctx[currentIndex].globalAlpha = 1.0;
 		}
 		else if(this.resize > 0) {
 			this.resize -= 2;
 			this.resizeUpdate();
+			this.alpha -= 0.05;
+			ctx[currentIndex].globalAlpha = this.alpha;
+			ctx[currentIndex].drawImage(this.info, 
+								 (canvas[currentIndex].width / 2) - 267, 
+								 (canvas[currentIndex].height / 2) - 180, 
+								 535, 
+								 321);
+			ctx[currentIndex].globalAlpha = 1.0;
 		}
 	}
 }
@@ -125,16 +145,23 @@ window.requestAnimFrame = (function(){
 window.onload = function() {
 	for(i=0; i<4; i++) {
 		for(j=0; j<4; j++) {
-			images[i][j] = new CanvasImage("image" + (i * 4 + j + 1), j + 1);
+			images[i][j] = new CanvasImage("image" + (i * 4 + j + 1), j + 1, "info" + (i * 4 + j + 1));
 		}
 	}
 	keyImage = new CanvasImage("key", 5);
 	handleResize();
+	initFadeIn();
 	(function animloop(){
 		requestAnimFrame(animloop);
 		update(currentIndex);
 	})();
 };
+
+function initFadeIn() {
+    for(i=0; i<4; i++) {
+    	$('canvas' + (i + 1)).fadeIn();
+    }
+}
 
 $('.carousel').on('slid.bs.carousel', function () {
 
@@ -143,12 +170,4 @@ $('.carousel').on('slid.bs.carousel', function () {
   // EDIT: Doesn't work in Boostrap >= 3.2
   //var currentIndex = carouselData.getActiveIndex();
   currentIndex = carouselData.getItemIndex(carouselData.$element.find('.item.active'));
-  var total = carouselData.$items.length;
-  // Create the text we want to display.
-  // We increment the index because humans don't count like machines
-  var text = (currentIndex + 1) + " of " + total;
-
-  // You have to create a HTML element <div id="carousel-index"></div>
-  // under your carousel to make this work
-  $('#carousel-index').text(text);
 });
