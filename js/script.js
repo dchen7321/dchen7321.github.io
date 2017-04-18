@@ -11,6 +11,7 @@ var images = [new Array(4), new Array(4), new Array(4), new Array(4)];
 var keyImage;
 var sizeFactor = 110;
 var mouse = {};
+var fadeAlpha = 0;
 
 function CanvasImage(imageID, position, infoID) {
 	this.img = document.getElementById(imageID);
@@ -41,7 +42,7 @@ function CanvasImage(imageID, position, infoID) {
 		}
 		if(position == 5) {
 			this.absolutex = canvas[0].width - 300;
-			this.absolutey = 150;
+			this.absolutey = 130;
 			this.h = 125;
 			this.w = this.h * this.aspectRatio;
 		}
@@ -71,11 +72,11 @@ function CanvasImage(imageID, position, infoID) {
 			}
 			ctx[currentIndex].globalAlpha = this.alpha;
 			ctx[currentIndex].drawImage(this.info, 
-								 (canvas[currentIndex].width / 2) - 267, 
+								 (canvas[currentIndex].width / 2) - 250, 
 								 (canvas[currentIndex].height / 2) - 180, 
-								 535, 
-								 321);
-			ctx[currentIndex].globalAlpha = 1.0;
+								 500, 
+								 300);
+			ctx[currentIndex].globalAlpha = fadeAlpha;
 		}
 		else if(this.resize > 0) {
 			this.resize -= 2;
@@ -83,12 +84,12 @@ function CanvasImage(imageID, position, infoID) {
 			this.alpha -= 0.05;
 			ctx[currentIndex].globalAlpha = this.alpha;
 			ctx[currentIndex].drawImage(this.info, 
-								 (canvas[currentIndex].width / 2) - 267, 
+								 (canvas[currentIndex].width / 2) - 250, 
 								 (canvas[currentIndex].height / 2) - 180, 
-								 535, 
-								 321);
-			ctx[currentIndex].globalAlpha = 1.0;
-		}
+								 500, 
+								 300);
+			ctx[currentIndex].globalAlpha = fadeAlpha;
+		}	
 	}
 }
 
@@ -116,10 +117,23 @@ function handleResize() {
     for(i=0; i<4; i++) {
     	update(i);
     }
+    for(i=0; i<4; i++) {
+    	if(i != currentIndex) {
+    		ctx[i].globalAlpha = 1.0;
+    	}
+    }
 }
 
 function update(input) {
 	ctx[input].clearRect(0, 0, canvas[input].width, canvas[input].height);
+	if(fadeAlpha < 1.0) {
+		fadeAlpha += 0.04;
+		ctx[input].globalAlpha = fadeAlpha
+	}
+	else if(fadeAlpha > 1.0) {
+		fadeAlpha = 1.0;
+	}
+
 	for(j=0; j<4; j++) {
 		images[input][j].mouseOverUpdate();
 		ctx[input].drawImage(images[input][j].img, 
@@ -150,18 +164,11 @@ window.onload = function() {
 	}
 	keyImage = new CanvasImage("key", 5);
 	handleResize();
-	initFadeIn();
 	(function animloop(){
 		requestAnimFrame(animloop);
 		update(currentIndex);
 	})();
 };
-
-function initFadeIn() {
-    for(i=0; i<4; i++) {
-    	$('canvas' + (i + 1)).fadeIn();
-    }
-}
 
 $('.carousel').on('slid.bs.carousel', function () {
 
