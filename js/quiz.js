@@ -44,6 +44,7 @@ function update() {
 		ctx.font = "50px Century Gothic";
 		ctx.textAlign = "center";
 		ctx.fillText(questionList[quizState], canvas.width/2, canvas.height/2 - 150)
+		
 	}
 
 }
