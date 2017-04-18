@@ -25,7 +25,12 @@ body {
     color: white;
     text-decoration: none;
 }*/
+.fullscreen-image {
+    width: 100%;
+    margin-top: 3%;
+}
 
+}
 .carousel-inner {
     height: 100%;
     background-color: #FBCA41;
