@@ -15,43 +15,37 @@ window.addEventListener("resize", handleResize);
 function handleResize() {
     var w = window.innerWidth-2; // -2 accounts for the border
     var h = window.innerHeight-2;
-    var wRatio = w / canvas[0].width;
-    for(i=0; i<4; i++) {
-    	canvas[i].width = w;
-    	canvas[i].height = h;
-    }
+    var wRatio = w / canvas.width;
+    canvas.width = w;
+    canvas.height = h;
     //sizeFactor = sizeFactor * wRatio
+    /*
     for(i=0; i<4; i++) {
     	for(j=0; j<4; j++) {
     		images[i][j].resizeUpdate();
     	}
     }
-    keyImage.resizeUpdate();
-    ctx[currentIndex].globalAlpha = fadeAlpha;
-    for(i=1; i<4; i++) {
-    	update(i);
-    }
+    */
+    ctx.globalAlpha = fadeAlpha;
+    update()
 }
 
-function update(input) {
-	ctx[input].clearRect(0, 0, canvas[input].width, canvas[input].height);
-	if(fadeAlpha < 1.0 && input == currentIndex) {
-		fadeAlpha += 0.04;
-		ctx[input].globalAlpha = fadeAlpha
+function update() {
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	if(fadeAlpha < 1.0) {
+		fadeAlpha += 0.02;
+		ctx.globalAlpha = fadeAlpha
 	}
 	else if(fadeAlpha > 1.0) {
 		fadeAlpha = 1.0;
 	}
 
-	for(j=0; j<4; j++) {
-		images[input][j].mouseOverUpdate();
-		ctx[input].drawImage(images[input][j].img, 
-							 images[input][j].x, 
-							 images[input][j].y, 
-							 images[input][j].w, 
-							 images[input][j].h);
+	if(quizState < 8) {
+		ctx.font = "50px Century Gothic";
+		ctx.textAlign = "center";
+		ctx.fillText(questionList[quizState], canvas.width/2, canvas.height/2 - 150)
 	}
-	ctx[input].drawImage(keyImage.img, keyImage.x, keyImage.y, keyImage.w, keyImage.h);
+
 }
 
 window.requestAnimFrame = (function(){
@@ -66,15 +60,16 @@ window.requestAnimFrame = (function(){
 })();
 
 window.onload = function() {
+	/*
 	for(i=0; i<4; i++) {
 		for(j=0; j<4; j++) {
 			images[i][j] = new CanvasImage("image" + (i * 4 + j + 1), j + 1, "info" + (i * 4 + j + 1));
 		}
 	}
-	keyImage = new CanvasImage("key", 5);
+	*/
 	handleResize();
 	(function animloop(){
 		requestAnimFrame(animloop);
-		update(currentIndex);
+		update();
 	})();
 };
