@@ -49,7 +49,7 @@ function CanvasImage(imageID, position, name) {
 		}
 		if(position == 6) {
 			this.absolutex = 50;
-			this.absolutey = canvas.height / 2 - 10;
+			this.absolutey = canvas.height / 2 - 10;	
 			this.h = 520;
 			this.w = this.h * this.aspectRatio;
 		}
