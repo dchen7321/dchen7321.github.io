@@ -206,20 +206,20 @@ window.requestAnimFrame = (function(){
 
 window.onload = function() {
 
-	images[0] = new CanvasImage("image1", 1, "Rice Noodle Roll")
-	images[1] = new CanvasImage("image2", 2, "Congee")
-	images[2] = new CanvasImage("image3", 3, "Chicken Feet");
+	images[0] = new CanvasImage("image1", 1, "rice noodle roll")
+	images[1] = new CanvasImage("image2", 2, "congee")
+	images[2] = new CanvasImage("image3", 3, "chicken feet");
 	images[3] = images[2];
-	images[4] = new CanvasImage("image5", 1, "Har Gao")
-	images[5] = new CanvasImage("image6", 2, "Siu Mai")
-	images[6] = new CanvasImage("image7", 1, "Soup Dumplings")
-	images[7] = new CanvasImage("image8", 2, "Sticky Rice")
-	images[8] = new CanvasImage("image9", 1, "Pork Buns")
-	images[9] = new CanvasImage("image10", 2, "Barbecued Pork")
-	images[10] = new CanvasImage("image11", 1, "Pineapple Buns")
-	images[11] = new CanvasImage("image12", 2, "Sesame Balls")
-	images[12] = new CanvasImage("image13", 1, "Mango Pudding")
-	images[13] = new CanvasImage("image14", 2, "Egg Tarts")
+	images[4] = new CanvasImage("image5", 1, "har gao")
+	images[5] = new CanvasImage("image6", 2, "siu mai")
+	images[6] = new CanvasImage("image7", 1, "soup dumplings")
+	images[7] = new CanvasImage("image8", 2, "sticky rice")
+	images[8] = new CanvasImage("image9", 1, "pork buns")
+	images[9] = new CanvasImage("image10", 2, "barbecued pork")
+	images[10] = new CanvasImage("image11", 1, "pineapple buns")
+	images[11] = new CanvasImage("image12", 2, "sesame balls")
+	images[12] = new CanvasImage("image13", 1, "mango pudding")
+	images[13] = new CanvasImage("image14", 2, "egg tarts")
 
 	yesImage = new CanvasImage("yes", 1);
 	noImage = new CanvasImage("no", 2);
