@@ -7,7 +7,7 @@
 html,
 body {
     height: 100%;
-    background-color: #FBCA41;
+    background-color: transparent;
 }
 
 .carousel,
@@ -24,22 +24,22 @@ body {
 .navbar-nav li a {
     color: white;
     text-decoration: none;
-}*/
+}
 html {
     background: url(../assets/home-background.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-}
-/*
+}*/
+
 .home-body {
     background: url(../assets/home-background.png) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-}*/
+}
 
 .etiquette-body {
     background: url(../assets/etiquette-background.png) no-repeat center center fixed;
