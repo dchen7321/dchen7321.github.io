@@ -110,7 +110,7 @@ p {
 .key1 {
     position: absolute;
     z-index: 5;
-    height: 600px;
+    height: 90%;
     top: 65px;
     left: 25px;
 }
@@ -118,7 +118,7 @@ p {
 .key2 {
     position: absolute;
     z-index: 5;
-    height: 600px;
+    height: 90%;
     top: 65px;
     right: 25px;
 }
