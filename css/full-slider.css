@@ -4,7 +4,16 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
 
-html,
+html {
+    height: 100%;
+    background-color: #FBCA41;
+}
+
+.hide-overflow {
+    overflow: hidden;
+}
+
+
 body {
     height: 100%;
     background-color: transparent;
@@ -25,13 +34,7 @@ body {
     color: white;
     text-decoration: none;
 }
-html {
-    background: url(../assets/home-background.png) no-repeat center center fixed; 
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}*/
+*/
 
 .home-body {
     background: url(../assets/home-background.png) no-repeat center center fixed;
@@ -47,13 +50,6 @@ html {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-}
-
-.block {
-    background-color:rgba(0,0,0,0.2);
-    height:370px;
-    padding-left:12px;
-    padding-right:12px;
 }
 
 }
@@ -74,14 +70,13 @@ html {
     -o-background-size: cover;
 }
 
+/*
 footer {
     margin: 50px 0;
-}
+}*/
 
 .sample {
     display: none;
-    height: 50%;
-    width: 50%; 
 }
 
 .canvas {
@@ -100,10 +95,6 @@ footer {
     padding-right:12px;
 }
 
-.block-sm {
-    height:100%;
-}
-
 h1 {
     font-family: "Simply Rounded", "Century Gothic", "sans-serif";
 }
@@ -114,4 +105,25 @@ h4 {
 
 p {
     font-family: "Century Gothic";
+}
+
+.key1 {
+    position: absolute;
+    z-index: 5;
+    height: 650px;
+    left: 25px;
+}
+
+.key2 {
+    position: absolute;
+    z-index: 5;
+    height: 650px;
+    right: 25px;
+}
+
+.carousel-control.left {
+    z-index:7
+}  
+.carousel-control.right {
+    z-index:7
 }

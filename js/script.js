@@ -8,8 +8,8 @@ var ctx = [canvas[0].getContext("2d"),
 		   canvas[3].getContext("2d")];
 var currentIndex = 0;
 var images = [new Array(4), new Array(4), new Array(4), new Array(4)];
-var keyImage1;
-var keyImage2;
+//var keyImage1;
+//var keyImage2;
 var sizeFactor = 110;
 var mouse = {};
 var fadeAlpha = 0;
@@ -41,6 +41,7 @@ function CanvasImage(imageID, position, infoID) {
 			this.absolutex = (canvas[0].width / 2); 
 			this.absolutey = canvas[0].height - 150;
 		}
+		/*
 		if(position == 5) {
 			this.absolutex = canvas[0].width - 60;
 			this.absolutey = canvas[0].height / 2;
@@ -52,7 +53,7 @@ function CanvasImage(imageID, position, infoID) {
 			this.absolutey = canvas[0].height / 2;
 			this.h = 560;
 			this.w = this.h * this.aspectRatio;
-		}
+		}*/
 		this.x = this.absolutex - (this.w / 2);
 		this.y = this.absolutey - (this.h / 2);
 	}
@@ -120,8 +121,8 @@ function handleResize() {
     		images[i][j].resizeUpdate();
     	}
     }
-    keyImage1.resizeUpdate();
-    keyImage2.resizeUpdate();
+    //keyImage1.resizeUpdate();
+    //keyImage2.resizeUpdate();
     ctx[currentIndex].globalAlpha = fadeAlpha;
     for(i=1; i<4; i++) {
     	update(i);
@@ -146,8 +147,8 @@ function update(input) {
 							 images[input][j].w, 
 							 images[input][j].h);
 	}
-	ctx[input].drawImage(keyImage1.img, keyImage1.x, keyImage1.y, keyImage1.w, keyImage1.h);
-	ctx[input].drawImage(keyImage2.img, keyImage2.x, keyImage2.y, keyImage2.w, keyImage2.h);
+	//ctx[input].drawImage(keyImage1.img, keyImage1.x, keyImage1.y, keyImage1.w, keyImage1.h);
+	//ctx[input].drawImage(keyImage2.img, keyImage2.x, keyImage2.y, keyImage2.w, keyImage2.h);
 }
 
 window.requestAnimFrame = (function(){
@@ -167,8 +168,8 @@ window.onload = function() {
 			images[i][j] = new CanvasImage("image" + (i * 4 + j + 1), j + 1, "info" + (i * 4 + j + 1));
 		}
 	}
-	keyImage1 = new CanvasImage("key1", 5);
-	keyImage2 = new CanvasImage("key2", 6);
+	//keyImage1 = new CanvasImage("key1", 5);
+	//keyImage2 = new CanvasImage("key2", 6);
 	handleResize();
 	(function animloop(){
 		requestAnimFrame(animloop);
