@@ -25,9 +25,35 @@ body {
     color: white;
     text-decoration: none;
 }*/
-.fullscreen-image {
-    width: 100%;
-    margin-top: 3%;
+html {
+    background: url(../assets/home-background.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+/*
+.home-body {
+    background: url(../assets/home-background.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}*/
+
+.etiquette-body {
+    background: url(../assets/etiquette-background.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.block {
+    background-color:rgba(0,0,0,0.2);
+    height:370px;
+    padding-left:12px;
+    padding-right:12px;
 }
 
 }
@@ -65,4 +91,27 @@ footer {
 .centerdiv {
     width: 100%;
     height: 100%;
+}
+
+.block {
+    background-color:rgba(255,255,255,0.4);
+    height:100%;
+    padding-left:12px;
+    padding-right:12px;
+}
+
+.block-sm {
+    height:100%;
+}
+
+h1 {
+    font-family: "Simply Rounded", "Century Gothic", "sans-serif";
+}
+
+h4 {
+    font-family: "Simply Rounded", "Century Gothic", "sans-serif";
+}
+
+p {
+    font-family: "Century Gothic";
 }
