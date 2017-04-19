@@ -30,11 +30,11 @@ function CanvasImage(imageID, position, infoID) {
 			this.absolutey = 125;
 		}
 		if(position == 2) {
-			this.absolutex = 380;
+			this.absolutex = 350;
 			this.absolutey = (canvas[0].height / 2) - 25;
 		}
 		if(position == 3) {
-			this.absolutex = canvas[0].width - 380;
+			this.absolutex = canvas[0].width - 350;
 			this.absolutey = (canvas[0].height / 2) - 25;
 		}
 		if(position == 4) {
