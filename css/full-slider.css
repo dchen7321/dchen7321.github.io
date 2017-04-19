@@ -110,20 +110,22 @@ p {
 .key1 {
     position: absolute;
     z-index: 5;
-    height: 650px;
+    height: 600px;
+    top: 65px;
     left: 25px;
 }
 
 .key2 {
     position: absolute;
     z-index: 5;
-    height: 650px;
+    height: 600px;
+    top: 65px;
     right: 25px;
 }
 
 .carousel-control.left {
-    z-index:7
+    z-index:7;
 }  
 .carousel-control.right {
-    z-index:7
+    z-index:7;
 }
