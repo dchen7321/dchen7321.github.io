@@ -16,7 +16,7 @@ var worstQualityImage;
 var mouse = {};
 var click = {};
 var question1 = "I am a(n)...";
-var question2List = ["Spreading memes is my...", "Empathy is my...", "Naive is my...", "Judging is my...", "Stumbling girls is my...",  "Emotional is my...", "Low-key is my...", "Realistic is my...", "Influencing is my...", "Layered is my...", "Adaptable is my...", "Disciplined is my...", "Weird is my..."];
+var question2List = ["Spreading memes is my...", "Empathy is my...", "Naive is my...", "Judging is my...", "Stumbling girls is my...",  "Emotional is my...", "Being low-key is my...", "Realistic is my...", "Influencing is my...", "Layered is my...", "Adaptable is my...", "Disciplined is my...", "Weird is my..."];
 var op = [1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0];
 
 
@@ -62,7 +62,7 @@ function CanvasImage(imageID, position, isButton) {
 			this.absolutey = canvas.height / 2 - 10;
 			this.h = 520;
 			this.w = this.h * this.aspectRatio;
-		}
+	
 		if(position == 6) {
 			this.absolutex = 50;
 			this.absolutey = canvas.height / 2 - 10;	
@@ -78,6 +78,7 @@ function CanvasImage(imageID, position, isButton) {
 	this.resizeUpdate = function() {
 		this.h = sizeFactor + this.resize
 		this.w = this.h * this.aspectRatio;
+        console.log(this.h);
 		this.updatePosition();
 	}
 
@@ -89,6 +90,7 @@ function CanvasImage(imageID, position, isButton) {
                mouse.y < this.absolutey + (this.h / 2)) {
                 this.mouseOver = true;
                 if(this.resize < 40) {
+                    console.log(4)
                     this.resize += 4;
                     this.resizeUpdate();
                 }
@@ -297,6 +299,7 @@ function update0(input) {
     else if(input == 1) {
         if(active) {
             fadeState = 2;
+            active = false;
         }
     }
 }
@@ -312,13 +315,15 @@ function update1(input) {
                 active = true;
                 fadeState = 0;
             }
+            optimistImage.mouseOverUpdate();
+            pessimistImage.mouseOverUpdate();
             ctx.globalAlpha = fadeAlpha;
             ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
             ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
             ctx.drawImage(images[0].img, images[0].x, images[0].y, images[0].w, images[0].h);
-            ctx.font = "Above 50px";
-    ctx.textAlign = "center";
-            ctx.fillText(question1, canvas.width/2, canvas.height/2 - 150);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
         }
         else if(fadeState == 2) {
             if(fadeAlpha > 0.0) {
@@ -329,21 +334,31 @@ function update1(input) {
                 fadeState = 1;
                 state = [1, 0];
             }
+            optimistImage.mouseOverUpdate();
+            pessimistImage.mouseOverUpdate();
             ctx.globalAlpha = fadeAlpha;
             ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
             ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
             ctx.drawImage(images[0].img, images[0].x, images[0].y, images[0].w, images[0].h);
-            ctx.fillText(question1, canvas.width/2, canvas.height/2 - 150);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
         }
         else {
+            optimistImage.mouseOverUpdate();
+            pessimistImage.mouseOverUpdate();
             ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
             ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
             ctx.drawImage(images[0].img, images[0].x, images[0].y, images[0].w, images[0].h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
         }
     }
     else if(input == 1) {
         if(active) {
             fadeState = 2;
+            active = false;
         }
     }
 }
@@ -373,7 +388,7 @@ window.onload = function() {
 	pessimistImage = new CanvasImage("pessimist", 4, true);
 	bestQualityImage = new CanvasImage("best quality", 3, true);
 	worstQualityImage = new CanvasImage("worst quality", 4, true);
-    ctx.font = "Above 50px";
+    ctx.font = "50px Above";
     ctx.textAlign = "center";
 
 	handleResize();
