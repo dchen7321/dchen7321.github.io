@@ -1,57 +1,72 @@
-var canvas = [document.getElementById("canvas1"), 
-			  document.getElementById("canvas2"), 
-			  document.getElementById("canvas3"), 
-			  document.getElementById("canvas4")];
-var ctx = [canvas[0].getContext("2d"), 
-		   canvas[1].getContext("2d"),
-		   canvas[2].getContext("2d"),
-		   canvas[3].getContext("2d")];
-var currentIndex = 0;
-var images = [new Array(4), new Array(4), new Array(4), new Array(4)];
-//var keyImage1;
-//var keyImage2;
-var sizeFactor = 110;
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var sizeFactor;
+var state = [0, 0];
+var active = false;
+var fadeState = 1;
+var fadeAlpha = 0.0;
+var timer = 20;
+var images = [];
+var leadImage;
+var clincherImage;
+var optimistImage;
+var pessimistImage;
+var bestQualityImage;
+var worstQualityImage;
 var mouse = {};
-var fadeAlpha = 0;
+var click = {};
+var question1 = "I am a(n)...";
+var question2List = ["Spreading memes is my...", "Empathy is my...", "Naive is my...", "Judging is my...", "Stumbling girls is my...",  "Emotional is my...", "Low-key is my...", "Realistic is my...", "Influencing is my...", "Layered is my...", "Adaptable is my...", "Disciplined is my...", "Weird is my..."];
+var op = [1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0];
 
-function CanvasImage(imageID, position, infoID) {
+
+function CanvasImage(imageID, position, isButton) {
 	this.img = document.getElementById(imageID);
 	this.aspectRatio = this.img.width / this.img.height;
 	this.h = sizeFactor;
 	this.w = this.h * this.aspectRatio;
 	this.position = position;
 	this.resize = 0;
-	this.alpha = 0;
-	this.info = document.getElementById(infoID);
+	this.alpha = 1.0;
+	this.mouseOver = false;
+	this.isButton = isButton;
+
 
 	this.updatePosition = function() {
+		// portrait positions
 		if(position == 1) {
-			this.absolutex = (canvas[0].width / 2);
-			this.absolutey = 125;
+			this.absolutex = this.w / 2;
+			this.absolutey = this.h / 2;
 		}
+		// fullscreen positions
 		if(position == 2) {
-			this.absolutex = 310;
-			this.absolutey = (canvas[0].height / 2) - 25;
+			this.absolutex = canvas.width / 2;
+			this.absolutey = canvas.height / 2;
 		}
+		// top answer position
 		if(position == 3) {
-			this.absolutex = canvas[0].width - 310;
-			this.absolutey = (canvas[0].height / 2) - 25;
+			this.absolutex = canvas.width / 2 + 150;
+			this.absolutey = canvas.height / 2;
+            this.h = 36;
+            this.w = this.h * this.aspectRatio;
 		}
+		// bottom answer position
 		if(position == 4) {
-			this.absolutex = (canvas[0].width / 2); 
-			this.absolutey = canvas[0].height - 150;
-		}
-		/*
+			this.absolutex = canvas.width / 2 + 150; 
+			this.absolutey = canvas.height / 2 + 150;
+            this.h = 36;
+            this.w = this.h * this.aspectRatio;
+		}/*
 		if(position == 5) {
-			this.absolutex = canvas[0].width - 60;
-			this.absolutey = canvas[0].height / 2;
-			this.h = 560;
+			this.absolutex = canvas.width - 50;
+			this.absolutey = canvas.height / 2 - 10;
+			this.h = 520;
 			this.w = this.h * this.aspectRatio;
 		}
 		if(position == 6) {
-			this.absolutex = 60;
-			this.absolutey = canvas[0].height / 2;
-			this.h = 560;
+			this.absolutex = 50;
+			this.absolutey = canvas.height / 2 - 10;	
+			this.h = 520;
 			this.w = this.h * this.aspectRatio;
 		}*/
 		this.x = this.absolutex - (this.w / 2);
@@ -67,38 +82,102 @@ function CanvasImage(imageID, position, infoID) {
 	}
 
 	this.mouseOverUpdate = function() {
-		if(mouse.x > this.absolutex - (this.w / 2) &&
-			mouse.x < this.absolutex + (this.w / 2) &&
-			mouse.y > this.absolutey - (this.h / 2) &&
-			mouse.y < this.absolutey + (this.h / 2)) {
-			if(this.resize < 40) {
-				this.resize += 4;
-				this.resizeUpdate();
-			}
-			if(this.alpha < 1.0) {
-				this.alpha += 0.1;
-			}
-			ctx[currentIndex].globalAlpha = this.alpha;
-			ctx[currentIndex].drawImage(this.info, 
-								 (canvas[currentIndex].width / 2) - 250, 
-								 (canvas[currentIndex].height / 2) - 172, 
-								 500, 
-								 300);
-			ctx[currentIndex].globalAlpha = fadeAlpha;
+        if(this.isButton) {
+            if(mouse.x > this.absolutex - (this.w / 2) &&
+               mouse.x < this.absolutex + (this.w / 2) && 
+               mouse.y > this.absolutey - (this.h / 2) &&
+               mouse.y < this.absolutey + (this.h / 2)) {
+                this.mouseOver = true;
+                if(this.resize < 40) {
+                    this.resize += 4;
+                    this.resizeUpdate();
+                }
+            }
+            else if(this.resize > 0) {
+                this.mouseOver = false;
+                this.resize -= 2;
+                this.resizeUpdate();
+            }
+            else {
+                this.mouseOver = false;
+            }
+        }
+    }
+
+	this.clickUpdate = function() {
+		if(this.mouseOver && reset) {
+			quizState = x;
+			tryText = "try";
 		}
-		else if(this.resize > 0) {
-			this.resize -= 2;
-			this.resizeUpdate();
-			this.alpha -= 0.05;
-			ctx[currentIndex].globalAlpha = this.alpha;
-			ctx[currentIndex].drawImage(this.info, 
-								 (canvas[currentIndex].width / 2) - 250, 
-								 (canvas[currentIndex].height / 2) - 172, 
-								 500, 
-								 300);
-			ctx[currentIndex].globalAlpha = fadeAlpha;
-		}	
+		else if(this.mouseOver && quizState < 7) {
+			quizResult = [quizState * 2, quizState * 2 + 1];
+			quizState = x;
+			this.mouseOver = false;
+		}
+		else if(this.mouseOver) {
+		}
 	}
+}
+
+document.addEventListener("click", function(x) {
+	click.x = x.pageX;
+	click.y = x.pageY;
+	clickUpdate();
+}, false);
+
+function clickUpdate() {
+    switch(state[0]) {
+        case 0:
+            update0(1);
+            break;
+        case 1:
+            update1(1);
+            break;
+        case 2:
+            update2(1);
+            break;
+        case 3:
+            update3(1);
+            break;
+        case 4:
+            update4(1);
+            break;
+        case 5:
+            update5(1);
+            break;
+        case 6:
+            update6(1);
+            break;
+        case 7:
+            update7(1);
+            break;
+        case 8:
+            update8(1);
+            break;
+        case 9:
+            update9(1);
+            break;
+        case 10:
+            update10(1);
+            break;
+        case 11:
+            update11(1);
+            break;
+        case 12:
+            update12(1);
+            break;
+        case 13:
+            update13(1);
+            break;
+        case 14:
+            update14(1);
+            break;
+        case 15:
+            update15(1);
+            break;
+        default:
+            console.log("invalid state");
+    }
 }
 
 document.addEventListener("mousemove", function(e) {
@@ -108,48 +187,168 @@ document.addEventListener("mousemove", function(e) {
 
 window.addEventListener("resize", handleResize);
 function handleResize() {
-    var w = window.innerWidth-2; // -2 accounts for the border
-    var h = window.innerHeight-2;
-    var wRatio = w / canvas[0].width;
-    for(i=0; i<4; i++) {
-    	canvas[i].width = w;
-    	canvas[i].height = h;
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    var wRatio = w / canvas.width;
+    canvas.width = w;
+    canvas.height = h;
+    sizeFactor = canvas.height;
+    leadImage.resizeUpdate();
+    clincherImage.resizeUpdate();
+    optimistImage.resizeUpdate();
+    pessimistImage.resizeUpdate();
+    bestQualityImage.resizeUpdate();
+    worstQualityImage.resizeUpdate();
+    for(i=0; i<13; i++) {
+    	images[i].resizeUpdate();
     }
-    //sizeFactor = sizeFactor * wRatio
-    for(i=0; i<4; i++) {
-    	for(j=0; j<4; j++) {
-    		images[i][j].resizeUpdate();
-    	}
+    ctx.globalAlpha = fadeAlpha;
+    update()
+}
+
+function update() {
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+	switch(state[0]) {
+		case 0:
+			update0(0);
+			break;
+		case 1:
+			update1(0);
+			break;
+		case 2:
+			update2(0);
+			break;
+		case 3:
+			update3(0);
+			break;
+		case 4:
+			update4(0);
+			break;
+		case 5:
+			update5(0);
+			break;
+		case 6:
+			update6(0);
+			break;
+		case 7:
+			update7(0);
+			break;
+		case 8:
+			update8(0);
+			break;
+		case 9:
+			update9(0);
+			break;
+		case 10:
+			update10(0);
+			break;
+		case 11:
+			update11(0);
+			break;
+		case 12:
+			update12(0);
+			break;
+		case 13:
+			update13(0);
+			break;
+		case 14:
+			update14(0);
+			break;
+		case 15:
+			update15(0);
+			break;
+		default:
+			console.log("invalid state");
+	}
+
+}
+
+function update0(input) {
+    if(input == 0) {
+        if(fadeState == 1) {
+            if(fadeAlpha < 1) {
+                fadeAlpha += 0.04;
+            }
+            else if(fadeAlpha >= 1.0) {
+                fadeAlpha = 1.0;
+                active = true;
+                fadeState = 0;
+            }
+            ctx.globalAlpha = fadeAlpha;
+            ctx.drawImage(leadImage.img, leadImage.x, leadImage.y, leadImage.w, leadImage.h);
+        }
+        else if(fadeState == 2) {
+            if(fadeAlpha > 0.0) {
+                fadeAlpha -= 0.05;
+            }
+            else if(fadeAlpha <= 0.0) {
+                fadeAlpha = 0.0;
+                fadeState = 1;
+                state = [1, 0];
+            }
+            ctx.globalAlpha = fadeAlpha;
+            ctx.drawImage(leadImage.img, leadImage.x, leadImage.y, leadImage.w, leadImage.h);
+        }
+        else {
+            ctx.drawImage(leadImage.img, leadImage.x, leadImage.y, leadImage.w, leadImage.h);
+        }
     }
-    //keyImage1.resizeUpdate();
-    //keyImage2.resizeUpdate();
-    ctx[currentIndex].globalAlpha = fadeAlpha;
-    for(i=1; i<4; i++) {
-    	update(i);
+    else if(input == 1) {
+        if(active) {
+            fadeState = 2;
+        }
     }
 }
 
-function update(input) {
-	ctx[input].clearRect(0, 0, canvas[input].width, canvas[input].height);
-	if(fadeAlpha < 1.0 && input == currentIndex) {
-		fadeAlpha += 0.04;
-		ctx[input].globalAlpha = fadeAlpha
-	}
-	else if(fadeAlpha > 1.0) {
-		fadeAlpha = 1.0;
-	}
-
-	for(j=0; j<4; j++) {
-		images[input][j].mouseOverUpdate();
-		ctx[input].drawImage(images[input][j].img, 
-							 images[input][j].x, 
-							 images[input][j].y, 
-							 images[input][j].w, 
-							 images[input][j].h);
-	}
-	//ctx[input].drawImage(keyImage1.img, keyImage1.x, keyImage1.y, keyImage1.w, keyImage1.h);
-	//ctx[input].drawImage(keyImage2.img, keyImage2.x, keyImage2.y, keyImage2.w, keyImage2.h);
+function update1(input) {
+    if(input == 0) {
+        if(fadeState == 1) {
+            if(fadeAlpha < 1) {
+                fadeAlpha += 0.04;
+            }
+            else if(fadeAlpha >= 1.0) {
+                fadeAlpha = 1.0;
+                active = true;
+                fadeState = 0;
+            }
+            ctx.globalAlpha = fadeAlpha;
+            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
+            ctx.drawImage(images[0].img, images[0].x, images[0].y, images[0].w, images[0].h);
+            ctx.font = "Above 50px";
+    ctx.textAlign = "center";
+            ctx.fillText(question1, canvas.width/2, canvas.height/2 - 150);
+        }
+        else if(fadeState == 2) {
+            if(fadeAlpha > 0.0) {
+                fadeAlpha -= 0.05;
+            }
+            else if(fadeAlpha <= 0.0) {
+                fadeAlpha = 0.0;
+                fadeState = 1;
+                state = [1, 0];
+            }
+            ctx.globalAlpha = fadeAlpha;
+            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
+            ctx.drawImage(images[0].img, images[0].x, images[0].y, images[0].w, images[0].h);
+            ctx.fillText(question1, canvas.width/2, canvas.height/2 - 150);
+        }
+        else {
+            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
+            ctx.drawImage(images[0].img, images[0].x, images[0].y, images[0].w, images[0].h);
+        }
+    }
+    else if(input == 1) {
+        if(active) {
+            fadeState = 2;
+        }
+    }
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 window.requestAnimFrame = (function(){
 	return window.requestAnimationFrame || 
@@ -163,25 +362,24 @@ window.requestAnimFrame = (function(){
 })();
 
 window.onload = function() {
-	for(i=0; i<4; i++) {
-		for(j=0; j<4; j++) {
-			images[i][j] = new CanvasImage("image" + (i * 4 + j + 1), j + 1, "info" + (i * 4 + j + 1));
-		}
+
+	for(i=0; i<13; i++) {
+		images[i] = new CanvasImage("image" + (i + 1), 1, false);
 	}
-	//keyImage1 = new CanvasImage("key1", 5);
-	//keyImage2 = new CanvasImage("key2", 6);
+
+	leadImage = new CanvasImage("lead", 2, false);
+	clincherImage = new CanvasImage("clincher", 2, false)
+	optimistImage = new CanvasImage("optimist", 3, true);
+	pessimistImage = new CanvasImage("pessimist", 4, true);
+	bestQualityImage = new CanvasImage("best quality", 3, true);
+	worstQualityImage = new CanvasImage("worst quality", 4, true);
+    ctx.font = "Above 50px";
+    ctx.textAlign = "center";
+
 	handleResize();
+
 	(function animloop(){
 		requestAnimFrame(animloop);
-		update(currentIndex);
+		update();
 	})();
 };
-
-$('.carousel').on('slid.bs.carousel', function () {
-
-  // This variable contains all kinds of data and methods related to the carousel
-  var carouselData = $(this).data('bs.carousel');
-  // EDIT: Doesn't work in Boostrap >= 3.2
-  //var currentIndex = carouselData.getActiveIndex();
-  currentIndex = carouselData.getItemIndex(carouselData.$element.find('.item.active'));
-});
