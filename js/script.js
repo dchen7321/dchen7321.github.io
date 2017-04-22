@@ -1,12 +1,13 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var sizeFactor;
+var buttonSizeFactor;
 var state = [0, 0];
 var active = false;
 var fadeState = 1;
 var fadeAlpha = 0.0;
-var timer = 20;
-var images = [];
+var timer = 0;
+var image;
 var leadImage;
 var clincherImage;
 var optimistImage;
@@ -14,7 +15,6 @@ var pessimistImage;
 var bestQualityImage;
 var worstQualityImage;
 var mouse = {};
-var click = {};
 var question1 = "I am a(n)...";
 var question2List = ["Spreading memes is my...", "Empathy is my...", "Naive is my...", "Judging is my...", "Stumbling girls is my...",  "Emotional is my...", "Being low-key is my...", "Realistic is my...", "Influencing is my...", "Layered is my...", "Adaptable is my...", "Disciplined is my...", "Weird is my..."];
 var op = [1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0];
@@ -23,14 +23,18 @@ var op = [1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0];
 function CanvasImage(imageID, position, isButton) {
 	this.img = document.getElementById(imageID);
 	this.aspectRatio = this.img.width / this.img.height;
-	this.h = sizeFactor;
-	this.w = this.h * this.aspectRatio;
 	this.position = position;
 	this.resize = 0;
 	this.alpha = 1.0;
 	this.mouseOver = false;
 	this.isButton = isButton;
-
+    if(this.isButton) {
+        this.h = buttonSizeFactor;
+    }
+    else {
+        this.h = sizeFactor;
+    }
+    this.w = this.h * this.aspectRatio;
 
 	this.updatePosition = function() {
 		// portrait positions
@@ -47,15 +51,11 @@ function CanvasImage(imageID, position, isButton) {
 		if(position == 3) {
 			this.absolutex = canvas.width / 2 + 150;
 			this.absolutey = canvas.height / 2;
-            this.h = 36;
-            this.w = this.h * this.aspectRatio;
 		}
 		// bottom answer position
 		if(position == 4) {
 			this.absolutex = canvas.width / 2 + 150; 
 			this.absolutey = canvas.height / 2 + 150;
-            this.h = 36;
-            this.w = this.h * this.aspectRatio;
 		}/*
 		if(position == 5) {
 			this.absolutex = canvas.width - 50;
@@ -76,10 +76,16 @@ function CanvasImage(imageID, position, isButton) {
 	this.updatePosition();
 
 	this.resizeUpdate = function() {
-		this.h = sizeFactor + this.resize
-		this.w = this.h * this.aspectRatio;
-        console.log(this.h);
-		this.updatePosition();
+        if(this.isButton) {
+            this.h = buttonSizeFactor + this.resize
+            this.w = this.h * this.aspectRatio;
+            this.updatePosition();
+        }
+        else {
+            this.h = sizeFactor + this.resize
+            this.w = this.h * this.aspectRatio;
+            this.updatePosition();
+        }
 	}
 
 	this.mouseOverUpdate = function() {
@@ -89,8 +95,7 @@ function CanvasImage(imageID, position, isButton) {
                mouse.y > this.absolutey - (this.h / 2) &&
                mouse.y < this.absolutey + (this.h / 2)) {
                 this.mouseOver = true;
-                if(this.resize < 40) {
-                    console.log(4)
+                if(this.resize < 20) {
                     this.resize += 4;
                     this.resizeUpdate();
                 }
@@ -107,23 +112,11 @@ function CanvasImage(imageID, position, isButton) {
     }
 
 	this.clickUpdate = function() {
-		if(this.mouseOver && reset) {
-			quizState = x;
-			tryText = "try";
-		}
-		else if(this.mouseOver && quizState < 7) {
-			quizResult = [quizState * 2, quizState * 2 + 1];
-			quizState = x;
-			this.mouseOver = false;
-		}
-		else if(this.mouseOver) {
-		}
+		return this.mouseOver;
 	}
 }
 
 document.addEventListener("click", function(x) {
-	click.x = x.pageX;
-	click.y = x.pageY;
 	clickUpdate();
 }, false);
 
@@ -195,15 +188,14 @@ function handleResize() {
     canvas.width = w;
     canvas.height = h;
     sizeFactor = canvas.height;
+    buttonSizeFactor = 36;
     leadImage.resizeUpdate();
     clincherImage.resizeUpdate();
     optimistImage.resizeUpdate();
     pessimistImage.resizeUpdate();
     bestQualityImage.resizeUpdate();
     worstQualityImage.resizeUpdate();
-    for(i=0; i<13; i++) {
-    	images[i].resizeUpdate();
-    }
+    image.resizeUpdate();
     ctx.globalAlpha = fadeAlpha;
     update()
 }
@@ -306,6 +298,7 @@ function update0(input) {
 
 function update1(input) {
     if(input == 0) {
+        //fade in everything
         if(fadeState == 1) {
             if(fadeAlpha < 1) {
                 fadeAlpha += 0.04;
@@ -313,52 +306,547 @@ function update1(input) {
             else if(fadeAlpha >= 1.0) {
                 fadeAlpha = 1.0;
                 active = true;
-                fadeState = 0;
+                fadeState = 2;
             }
-            optimistImage.mouseOverUpdate();
-            pessimistImage.mouseOverUpdate();
             ctx.globalAlpha = fadeAlpha;
             ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
             ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
-            ctx.drawImage(images[0].img, images[0].x, images[0].y, images[0].w, images[0].h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
             ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
         }
+        //draw everything
         else if(fadeState == 2) {
+            optimistImage.mouseOverUpdate();
+            pessimistImage.mouseOverUpdate();
+            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
+        }
+        //fade out incorrect op
+        else if(fadeState == 3) {
+            if(fadeAlpha > 0.0) {
+                fadeAlpha -= 0.05;
+            }
+            else if(fadeAlpha <= 0.0) {
+                fadeAlpha = 0.0;
+                fadeState = 4;
+            }
+            optimistImage.mouseOverUpdate();
+            pessimistImage.mouseOverUpdate();
+            ctx.globalAlpha = fadeAlpha;
+            ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
+        }
+        //hold
+        else if(fadeState == 4) {
+            if(timer == 100) {
+                timer = 0;
+                fadeState = 5;
+                fadeAlpha = 1.0;
+            }
+            optimistImage.mouseOverUpdate();
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
+            timer ++;
+        }
+        //fade out other text
+        else if(fadeState == 5) {
+            if(fadeAlpha > 0.0) {
+                fadeAlpha -= 0.05;
+            }
+            else if(fadeAlpha <= 0.0) {
+                fadeAlpha = 0.0;
+                fadeState = 6;
+            }
+            optimistImage.mouseOverUpdate();
+            ctx.globalAlpha = fadeAlpha;
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+        }
+        //fade in new text
+        else if(fadeState == 6) {
+            if(fadeAlpha < 1) {
+                fadeAlpha += 0.04;
+            }
+            else if(fadeAlpha >= 1.0) {
+                fadeAlpha = 1.0;
+                active = true;
+                fadeState = 7;
+            }
+            ctx.globalAlpha = 1.0
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.globalAlpha = fadeAlpha;
+            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h)
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question2List[0], canvas.width/2 + 150, canvas.height/2 - 150);
+        }
+        //draw eveything
+        else if(fadeState == 7) {
+            bestQualityImage.mouseOverUpdate();
+            worstQualityImage.mouseOverUpdate();
+            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h)
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question2List[0], canvas.width/2 + 150, canvas.height/2 - 150);
+        }
+        //fade out incorrect bw
+        else if(fadeState == 8) {
+            if(fadeAlpha > 0.0) {
+                fadeAlpha -= 0.05;
+            }
+            else if(fadeAlpha <= 0.0) {
+                fadeAlpha = 0.0;
+                fadeState = 9;
+            }
+            bestQualityImage.mouseOverUpdate();
+            worstQualityImage.mouseOverUpdate();
+            ctx.globalAlpha = fadeAlpha;
+            ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h)
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question2List[0], canvas.width/2 + 150, canvas.height/2 - 150);
+        }
+        //hold
+        else if(fadeState == 9) {
+            if(timer == 100) {
+                timer = 0;
+                fadeState = 10;
+                fadeAlpha = 1.0;
+            }
+            bestQualityImage.mouseOverUpdate();
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question2List[0], canvas.width/2 + 150, canvas.height/2 - 150);
+            timer ++;
+        }
+        //fade out everything
+        else if(fadeState == 10) {
             if(fadeAlpha > 0.0) {
                 fadeAlpha -= 0.05;
             }
             else if(fadeAlpha <= 0.0) {
                 fadeAlpha = 0.0;
                 fadeState = 1;
-                state = [1, 0];
+                state = [2, 0]
+                image = new CanvasImage("image2", 1, false);
+            }
+            bestQualityImage.mouseOverUpdate();
+            ctx.globalAlpha = fadeAlpha;
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question2List[0], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+        }
+    }
+    else if(input == 1) {
+        if(fadeState == 2) {
+            if(optimistImage.mouseOver || pessimistImage.mouseOver) {
+                fadeState = 3;
+            }
+        }
+        else if(fadeState == 7) {
+            if(bestQualityImage.mouseOver || worstQualityImage.mouseOver) {
+                fadeState = 8;
+            }
+        }
+    }
+}
+
+function update2(input) {
+    if(input == 0) {
+        //fade in everything
+        if(fadeState == 1) {
+            if(fadeAlpha < 1) {
+                fadeAlpha += 0.04;
+            }
+            else if(fadeAlpha >= 1.0) {
+                fadeAlpha = 1.0;
+                active = true;
+                fadeState = 2;
+            }
+            ctx.globalAlpha = fadeAlpha;
+            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
+        }
+        //draw everything
+        else if(fadeState == 2) {
+            optimistImage.mouseOverUpdate();
+            pessimistImage.mouseOverUpdate();
+            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
+        }
+        //fade out incorrect op
+        else if(fadeState == 3) {
+            if(fadeAlpha > 0.0) {
+                fadeAlpha -= 0.05;
+            }
+            else if(fadeAlpha <= 0.0) {
+                fadeAlpha = 0.0;
+                fadeState = 4;
             }
             optimistImage.mouseOverUpdate();
             pessimistImage.mouseOverUpdate();
             ctx.globalAlpha = fadeAlpha;
-            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
             ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
-            ctx.drawImage(images[0].img, images[0].x, images[0].y, images[0].w, images[0].h);
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
             ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
         }
-        else {
+        //hold
+        else if(fadeState == 4) {
+            if(timer == 100) {
+                timer = 0;
+                fadeState = 5;
+                fadeAlpha = 1.0;
+            }
+            console.log(timer)
+            optimistImage.mouseOverUpdate();
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
+            timer ++;
+        }
+        //fade out other text
+        else if(fadeState == 5) {
+            if(fadeAlpha > 0.0) {
+                fadeAlpha -= 0.05;
+            }
+            else if(fadeAlpha <= 0.0) {
+                fadeAlpha = 0.0;
+                fadeState = 6;
+            }
+            optimistImage.mouseOverUpdate();
+            ctx.globalAlpha = fadeAlpha;
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+        }
+        //fade in new text
+        else if(fadeState == 6) {
+            if(fadeAlpha < 1) {
+                fadeAlpha += 0.04;
+            }
+            else if(fadeAlpha >= 1.0) {
+                fadeAlpha = 1.0;
+                active = true;
+                fadeState = 7;
+            }
+            ctx.globalAlpha = fadeAlpha;
+            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h)
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question2List[1], canvas.width/2 + 150, canvas.height/2 - 150);
+        }
+        //draw eveything
+        else if(fadeState == 7) {
+            bestQualityImage.mouseOverUpdate();
+            worstQualityImage.mouseOverUpdate();
+            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h)
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question2List[1], canvas.width/2 + 150, canvas.height/2 - 150);
+        }
+        //fade out incorrect bw
+        else if(fadeState == 8) {
+            if(fadeAlpha > 0.0) {
+                fadeAlpha -= 0.05;
+            }
+            else if(fadeAlpha <= 0.0) {
+                fadeAlpha = 0.0;
+                fadeState = 9;
+            }
+            bestQualityImage.mouseOverUpdate();
+            worstQualityImage.mouseOverUpdate();
+            ctx.globalAlpha = fadeAlpha;
+            ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h)
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question2List[1], canvas.width/2 + 150, canvas.height/2 - 150);
+        }
+        //hold
+        else if(fadeState == 9) {
+            if(timer == 100) {
+                timer = 0;
+                fadeState = 10;
+                fadeAlpha = 1.0;
+            }
+            bestQualityImage.mouseOverUpdate();
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question2List[1], canvas.width/2 + 150, canvas.height/2 - 150);
+            timer ++;
+        }
+        //fade out everything
+        else if(fadeState == 10) {
+            if(fadeAlpha > 0.0) {
+                fadeAlpha -= 0.05;
+            }
+            else if(fadeAlpha <= 0.0) {
+                fadeAlpha = 0.0;
+                fadeState = 1;
+                state = [3, 0]
+                image = new CanvasImage("image3", 1, false);
+            }
+            bestQualityImage.mouseOverUpdate();
+            ctx.globalAlpha = fadeAlpha;
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question2List[1], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+        }
+    }
+    else if(input == 1) {
+        if(fadeState == 2) {
+            if(optimistImage.mouseOver || pessimistImage.mouseOver) {
+                fadeState = 3;
+            }
+        }
+        else if(fadeState == 7) {
+            if(bestQualityImage.mouseOver || worstQualityImage.mouseOver) {
+                fadeState = 8;
+            }
+        }
+    }
+}
+
+function update3(input) {
+    if(input == 0) {
+        //fade in everything
+        if(fadeState == 1) {
+            if(fadeAlpha < 1) {
+                fadeAlpha += 0.04;
+            }
+            else if(fadeAlpha >= 1.0) {
+                fadeAlpha = 1.0;
+                active = true;
+                fadeState = 2;
+            }
+            ctx.globalAlpha = fadeAlpha;
+            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
+        }
+        //draw everything
+        else if(fadeState == 2) {
             optimistImage.mouseOverUpdate();
             pessimistImage.mouseOverUpdate();
             ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
             ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
-            ctx.drawImage(images[0].img, images[0].x, images[0].y, images[0].w, images[0].h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
             ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
         }
+        //fade out incorrect op
+        else if(fadeState == 3) {
+            if(fadeAlpha > 0.0) {
+                fadeAlpha -= 0.05;
+            }
+            else if(fadeAlpha <= 0.0) {
+                fadeAlpha = 0.0;
+                fadeState = 4;
+            }
+            optimistImage.mouseOverUpdate();
+            pessimistImage.mouseOverUpdate();
+            ctx.globalAlpha = fadeAlpha;
+            ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
+        }
+        //hold
+        else if(fadeState == 4) {
+            if(timer == 100) {
+                timer = 0;
+                fadeState = 5;
+                fadeAlpha = 1.0;
+            }
+            console.log(timer)
+            optimistImage.mouseOverUpdate();
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
+            timer ++;
+        }
+        //fade out other text
+        else if(fadeState == 5) {
+            if(fadeAlpha > 0.0) {
+                fadeAlpha -= 0.05;
+            }
+            else if(fadeAlpha <= 0.0) {
+                fadeAlpha = 0.0;
+                fadeState = 6;
+            }
+            optimistImage.mouseOverUpdate();
+            ctx.globalAlpha = fadeAlpha;
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+        }
+        //fade in new text
+        else if(fadeState == 6) {
+            if(fadeAlpha < 1) {
+                fadeAlpha += 0.04;
+            }
+            else if(fadeAlpha >= 1.0) {
+                fadeAlpha = 1.0;
+                active = true;
+                fadeState = 7;
+            }
+            ctx.globalAlpha = fadeAlpha;
+            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h)
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question2List[2], canvas.width/2 + 150, canvas.height/2 - 150);
+        }
+        //draw eveything
+        else if(fadeState == 7) {
+            bestQualityImage.mouseOverUpdate();
+            worstQualityImage.mouseOverUpdate();
+            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h)
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question2List[2], canvas.width/2 + 150, canvas.height/2 - 150);
+        }
+        //fade out incorrect bw
+        else if(fadeState == 8) {
+            if(fadeAlpha > 0.0) {
+                fadeAlpha -= 0.05;
+            }
+            else if(fadeAlpha <= 0.0) {
+                fadeAlpha = 0.0;
+                fadeState = 9;
+            }
+            bestQualityImage.mouseOverUpdate();
+            worstQualityImage.mouseOverUpdate();
+            ctx.globalAlpha = fadeAlpha;
+            ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h)
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question2List[2], canvas.width/2 + 150, canvas.height/2 - 150);
+        }
+        //hold
+        else if(fadeState == 9) {
+            if(timer == 100) {
+                timer = 0;
+                fadeState = 10;
+                fadeAlpha = 1.0;
+            }
+            bestQualityImage.mouseOverUpdate();
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question2List[2], canvas.width/2 + 150, canvas.height/2 - 150);
+            timer ++;
+        }
+        //fade out everything
+        else if(fadeState == 10) {
+            if(fadeAlpha > 0.0) {
+                fadeAlpha -= 0.05;
+            }
+            else if(fadeAlpha <= 0.0) {
+                fadeAlpha = 0.0;
+                fadeState = 1;
+                state = [4, 0]
+                image = new CanvasImage("image4", 1, false);
+            }
+            bestQualityImage.mouseOverUpdate();
+            ctx.globalAlpha = fadeAlpha;
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText(question2List[2], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
+        }
     }
     else if(input == 1) {
-        if(active) {
-            fadeState = 2;
-            active = false;
+        if(fadeState == 2) {
+            if(optimistImage.mouseOver || pessimistImage.mouseOver) {
+                fadeState = 3;
+            }
+        }
+        else if(fadeState == 7) {
+            if(bestQualityImage.mouseOver || worstQualityImage.mouseOver) {
+                fadeState = 8;
+            }
         }
     }
 }
@@ -378,9 +866,7 @@ window.requestAnimFrame = (function(){
 
 window.onload = function() {
 
-	for(i=0; i<13; i++) {
-		images[i] = new CanvasImage("image" + (i + 1), 1, false);
-	}
+	image = new CanvasImage("image1", 1, false);
 
 	leadImage = new CanvasImage("lead", 2, false);
 	clincherImage = new CanvasImage("clincher", 2, false)
@@ -388,8 +874,6 @@ window.onload = function() {
 	pessimistImage = new CanvasImage("pessimist", 4, true);
 	bestQualityImage = new CanvasImage("best quality", 3, true);
 	worstQualityImage = new CanvasImage("worst quality", 4, true);
-    ctx.font = "50px Above";
-    ctx.textAlign = "center";
 
 	handleResize();
 
