@@ -16,7 +16,7 @@ var bestQualityImage;
 var worstQualityImage;
 var mouse = {};
 var question1 = "I am a(n)...";
-var question2List = ["Spreading memes is my...", "Empathy is my...", "Naive is my...", "Judging is my...", "Stumbling girls is my...",  "Emotional is my...", "Being low-key is my...", "Realistic is my...", "Influencing is my...", "Very layered is my...", "Adaptable is my...", "Disciplined is my...", "Weird is my..."];
+var question2List = ["Spreading memes is my...", "Empathy is my...", "Naive is my...", "Judging is my...", "Realistic is my...",  "Emotional is my...", "Being low-key is my...", "Realistic is my...", "Influencing is my...", "Emotional is my...", "Adaptable is my...", "Disciplined is my...", "Weird is my..."];
 var optimist = [true, true, false, true, true, true, false, false, false, false, true, true, false];
 var best = [true, true, false, false, false, false, false, true, false, true, true, false, true];
 
@@ -127,43 +127,43 @@ function clickUpdate() {
             update0(1);
             break;
         case 1:
-            update1(1, 1);
+            update1(1, 0);
             break;
         case 2:
-            update1(1, 2);
+            update1(1, 1);
             break;
         case 3:
-            update1(1, 3);
+            update1(1, 2);
             break;
         case 4:
-            update1(1, 4);
+            update1(1, 3);
             break;
         case 5:
-            update1(1, 5);
+            update1(1, 4);
             break;
         case 6:
-            update1(1, 6);
+            update1(1, 5);
             break;
         case 7:
-            update1(1, 7);
+            update1(1, 6);
             break;
         case 8:
-            update1(1, 8);
+            update1(1, 7);
             break;
         case 9:
-            update1(1, 9);
+            update1(1, 8);
             break;
         case 10:
-            update1(1, 10);
+            update1(1, 9);
             break;
         case 11:
-            update1(1, 11);
+            update1(1, 10);
             break;
         case 12:
-            update1(1, 12);
+            update1(1, 11);
             break;
         case 13:
-            update1(1, 13);
+            update13(1);
             break;
         case 14:
             update14(1);
@@ -245,13 +245,10 @@ function update() {
 			update1(0, 11);
 			break;
 		case 13:
-			update1(0, 12);
+			update13(0);
 			break;
 		case 14:
 			update14(0);
-			break;
-		case 15:
-			update15(0);
 			break;
 		default:
 			console.log("invalid state");
@@ -364,7 +361,7 @@ function update1(input, index) {
         }
         //hold
         else if(fadeState == 4) {
-            if(timer == 100) {
+            if(timer == 150) {
                 timer = 0;
                 fadeState = 5;
                 fadeAlpha = 1.0;
@@ -474,7 +471,7 @@ function update1(input, index) {
         }
         //hold
         else if(fadeState == 9) {
-            if(timer == 100) {
+            if(timer == 150) {
                 timer = 0;
                 fadeState = 10;
                 fadeAlpha = 1.0;
@@ -534,7 +531,7 @@ function update1(input, index) {
     }
 }
 
-function update14(input) {
+function update13(input) {
     if(input == 0) {
         //fade in everything
         if(fadeState == 1) {
@@ -581,9 +578,9 @@ function update14(input) {
             optimistImage.mouseOverUpdate();
             pessimistImage.mouseOverUpdate();
             ctx.globalAlpha = fadeAlpha;
-            ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
-            ctx.globalAlpha = 1.0;
             ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
@@ -591,15 +588,14 @@ function update14(input) {
         }
         //hold
         else if(fadeState == 4) {
-            if(timer == 100) {
+            if(timer == 150) {
                 timer = 0;
                 fadeState = 5;
                 fadeAlpha = 1.0;
             }
-            console.log(timer)
-            optimistImage.mouseOverUpdate();
+            pessimistImage.mouseOverUpdate();
             ctx.globalAlpha = 1.0;
-            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
@@ -610,17 +606,17 @@ function update14(input) {
         else if(fadeState == 5) {
             if(fadeAlpha <= 0.05) {
                 fadeAlpha = 0;
-                fadeState = 4;
+                fadeState = 6;
             }
             else {
                 fadeAlpha -= 0.05;
             }
-            optimistImage.mouseOverUpdate();
+            pessimistImage.mouseOverUpdate();
             ctx.globalAlpha = fadeAlpha;
             ctx.font = "50px Above";
             ctx.textAlign = "center";
             ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
-            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
             ctx.globalAlpha = 1.0;
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
         }
@@ -637,10 +633,11 @@ function update14(input) {
             ctx.globalAlpha = fadeAlpha;
             ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
             ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h)
-            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
-            ctx.fillText(question2List[13], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.fillText(question2List[12], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.globalAlpha = 1.0;
+            ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
         }
         //draw eveything
         else if(fadeState == 7) {
@@ -651,13 +648,13 @@ function update14(input) {
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
-            ctx.fillText(question2List[13], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.fillText(question2List[12], canvas.width/2 + 150, canvas.height/2 - 150);
         }
         //fade out incorrect bw
         else if(fadeState == 8) {
             if(fadeAlpha <= 0.05) {
                 fadeAlpha = 0;
-                fadeState = 4;
+                fadeState = 9;
             }
             else {
                 fadeAlpha -= 0.05;
@@ -671,11 +668,11 @@ function update14(input) {
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
-            ctx.fillText(question2List[13], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.fillText(question2List[12], canvas.width/2 + 150, canvas.height/2 - 150);
         }
         //hold
         else if(fadeState == 9) {
-            if(timer == 100) {
+            if(timer == 150) {
                 timer = 0;
                 fadeState = 10;
                 fadeAlpha = 1.0;
@@ -686,14 +683,15 @@ function update14(input) {
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
-            ctx.fillText(question2List[13], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.fillText(question2List[12], canvas.width/2 + 150, canvas.height/2 - 150);
             timer ++;
         }
         //fade out everything
         else if(fadeState == 10) {
             if(fadeAlpha <= 0.05) {
                 fadeAlpha = 0;
-                fadeState = 4;
+                fadeState = 1;
+                state = [14, 0]
             }
             else {
                 fadeAlpha -= 0.05;
@@ -702,7 +700,7 @@ function update14(input) {
             ctx.globalAlpha = fadeAlpha;
             ctx.font = "50px Above";
             ctx.textAlign = "center";
-            ctx.fillText(question2List[13], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.fillText(question2List[12], canvas.width/2 + 150, canvas.height/2 - 150);
             ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
         }
@@ -717,6 +715,63 @@ function update14(input) {
             if(bestQualityImage.mouseOver || worstQualityImage.mouseOver) {
                 fadeState = 8;
             }
+        }
+    }
+}
+
+function update14(input) {
+    if(input == 0) {
+        if(fadeState == 1) {
+            if(fadeAlpha < 1) {
+                active = false;
+                fadeAlpha += 0.04;
+            }
+            else if(fadeAlpha >= 1.0) {
+                fadeAlpha = 1.0;
+                active = true;
+            }
+            ctx.globalAlpha = fadeAlpha;
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText("How different can the world look", canvas.width/2, canvas.height/2 - 150);
+            ctx.fillText("through the other half of the glass?", canvas.width/2, canvas.height/2 - 75);
+        }
+        else if(fadeState == 2) {
+            if(fadeAlpha > 0.0) {
+                fadeAlpha -= 0.05;
+                active = false;
+            }
+            else if(fadeAlpha <= 0.0) {
+                fadeAlpha = 0.001;
+                fadeState = 3;
+            }
+            ctx.globalAlpha = fadeAlpha;
+            ctx.font = "50px Above";
+            ctx.textAlign = "center";
+            ctx.fillText("How different can the world look", canvas.width/2, canvas.height/2 - 150);
+            ctx.fillText("through the other half of the glass?", canvas.width/2, canvas.height/2 - 75);
+        }
+        else if(fadeState == 3) {
+            if(fadeAlpha < 1) {
+                active = false;
+                fadeAlpha += 0.04;
+            }
+            else if(fadeAlpha >= 1.0) {
+                fadeAlpha = 1.0;
+                active = false;
+                fadeState = 0;
+            }
+            ctx.globalAlpha = fadeAlpha;
+            ctx.drawImage(clincherImage.img, clincherImage.x, clincherImage.y, clincherImage.w, clincherImage.h);
+        }
+        else {
+            ctx.drawImage(clincherImage.img, clincherImage.x, clincherImage.y, clincherImage.w, clincherImage.h);
+        }
+    }
+    else if(input == 1) {
+        if(active) {
+            fadeState = 2;
+            active = false;
         }
     }
 }
@@ -743,6 +798,7 @@ window.onload = function() {
 	pessimistImage = new CanvasImage("pessimist", 4, true);
 	bestQualityImage = new CanvasImage("best quality", 3, true);
 	worstQualityImage = new CanvasImage("worst quality", 4, true);
+    state = [0, 0];
 
 	handleResize();
 
