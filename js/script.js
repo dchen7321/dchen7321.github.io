@@ -17,8 +17,8 @@ var worstQualityImage;
 var mouse = {};
 var question1 = "I am a(n)...";
 var question2List = ["Spreading memes is my...", "Empathy is my...", "Naive is my...", "Judging is my...", "Stumbling girls is my...",  "Emotional is my...", "Being low-key is my...", "Realistic is my...", "Influencing is my...", "Very layered is my...", "Adaptable is my...", "Disciplined is my...", "Weird is my..."];
-var op = [1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0];
-var bw = [1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1];
+var optimist = [true, true, false, true, true, true, false, false, false, false, true, true, false];
+var best = [true, true, false, false, false, false, false, true, false, true, true, false, true];
 
 
 function CanvasImage(imageID, position, isButton) {
@@ -309,6 +309,10 @@ function update1(input, index) {
                 active = true;
                 fadeState = 2;
             }
+            bestQualityImage.resize = 0;
+            worstQualityImage.resize = 0;
+            bestQualityImage.resizeUpdate();
+            worstQualityImage.resizeUpdate();
             ctx.globalAlpha = fadeAlpha;
             ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
             ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
@@ -339,17 +343,24 @@ function update1(input, index) {
             }
             optimistImage.mouseOverUpdate();
             pessimistImage.mouseOverUpdate();
+            ctx.globalAlpha = fadeAlpha;
+            if(optimist[index]) {
+                ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h);
+            }
+            else {
+                ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            }
             ctx.globalAlpha = 1.0;
-            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            if(optimist[index]) {
+                ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            }
+            else {
+                ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h);
+            }
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
             ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
-            ctx.globalAlpha = 1.0;
-            ctx.globalAlpha = fadeAlpha;
-            console.log(ctx.globalAlpha);
-            ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
-            ctx.globalAlpha = 1.0;
         }
         //hold
         else if(fadeState == 4) {
@@ -359,8 +370,14 @@ function update1(input, index) {
                 fadeAlpha = 1.0;
             }
             optimistImage.mouseOverUpdate();
+            pessimistImage.mouseOverUpdate();
             ctx.globalAlpha = 1.0;
-            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            if(optimist[index]) {
+                ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            }
+            else {
+                ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h);
+            }
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
@@ -377,11 +394,17 @@ function update1(input, index) {
                 fadeAlpha -= 0.05;
             }
             optimistImage.mouseOverUpdate();
+            pessimistImage.mouseOverUpdate();
             ctx.globalAlpha = fadeAlpha;
             ctx.font = "50px Above";
             ctx.textAlign = "center";
             ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
-            ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            if(optimist[index]) {
+                ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
+            }
+            else {
+                ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h);
+            }
             ctx.globalAlpha = 1.0;
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
         }
@@ -395,6 +418,10 @@ function update1(input, index) {
                 active = true;
                 fadeState = 7;
             }
+            optimistImage.resize = 0;
+            pessimistImage.resize = 0;
+            optimistImage.resizeUpdate();
+            pessimistImage.resizeUpdate();
             ctx.globalAlpha = 1.0
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.globalAlpha = fadeAlpha;
@@ -427,9 +454,19 @@ function update1(input, index) {
             bestQualityImage.mouseOverUpdate();
             worstQualityImage.mouseOverUpdate();
             ctx.globalAlpha = fadeAlpha;
-            ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h)
+            if(best[index]) {
+                ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h);
+            }
+            else {
+                ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            }
             ctx.globalAlpha = 1.0;
-            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            if(best[index]) {
+                ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            }
+            else {
+                ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h);
+            }
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
@@ -443,8 +480,14 @@ function update1(input, index) {
                 fadeAlpha = 1.0;
             }
             bestQualityImage.mouseOverUpdate();
+            worstQualityImage.mouseOverUpdate();
             ctx.globalAlpha = 1.0;
-            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            if(best[index]) {
+                ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            }
+            else {
+                ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h);
+            }
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
@@ -463,11 +506,17 @@ function update1(input, index) {
                 fadeAlpha -= 0.05;
             }
             bestQualityImage.mouseOverUpdate();
+            worstQualityImage.mouseOverUpdate();
             ctx.globalAlpha = fadeAlpha;
             ctx.font = "50px Above";
             ctx.textAlign = "center";
             ctx.fillText(question2List[index], canvas.width/2 + 150, canvas.height/2 - 150);
-            ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            if(best[index]) {
+                ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
+            }
+            else {
+                ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h);
+            }
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
         }
     }
@@ -497,6 +546,10 @@ function update14(input) {
                 active = true;
                 fadeState = 2;
             }
+            bestQualityImage.resize = 0;
+            worstQualityImage.resize = 0;
+            bestQualityImage.resizeUpdate();
+            worstQualityImage.resizeUpdate();
             ctx.globalAlpha = fadeAlpha;
             ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
             ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
