@@ -16,8 +16,9 @@ var bestQualityImage;
 var worstQualityImage;
 var mouse = {};
 var question1 = "I am a(n)...";
-var question2List = ["Spreading memes is my...", "Empathy is my...", "Naive is my...", "Judging is my...", "Stumbling girls is my...",  "Emotional is my...", "Being low-key is my...", "Realistic is my...", "Influencing is my...", "Layered is my...", "Adaptable is my...", "Disciplined is my...", "Weird is my..."];
+var question2List = ["Spreading memes is my...", "Empathy is my...", "Naive is my...", "Judging is my...", "Stumbling girls is my...",  "Emotional is my...", "Being low-key is my...", "Realistic is my...", "Influencing is my...", "Very layered is my...", "Adaptable is my...", "Disciplined is my...", "Weird is my..."];
 var op = [1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0];
+var bw = [1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1];
 
 
 function CanvasImage(imageID, position, isButton) {
@@ -126,43 +127,43 @@ function clickUpdate() {
             update0(1);
             break;
         case 1:
-            update1(1);
+            update1(1, 1);
             break;
         case 2:
-            update2(1);
+            update1(1, 2);
             break;
         case 3:
-            update3(1);
+            update1(1, 3);
             break;
         case 4:
-            update4(1);
+            update1(1, 4);
             break;
         case 5:
-            update5(1);
+            update1(1, 5);
             break;
         case 6:
-            update6(1);
+            update1(1, 6);
             break;
         case 7:
-            update7(1);
+            update1(1, 7);
             break;
         case 8:
-            update8(1);
+            update1(1, 8);
             break;
         case 9:
-            update9(1);
+            update1(1, 9);
             break;
         case 10:
-            update10(1);
+            update1(1, 10);
             break;
         case 11:
-            update11(1);
+            update1(1, 11);
             break;
         case 12:
-            update12(1);
+            update1(1, 12);
             break;
         case 13:
-            update13(1);
+            update1(1, 13);
             break;
         case 14:
             update14(1);
@@ -208,46 +209,46 @@ function update() {
 			update0(0);
 			break;
 		case 1:
-			update1(0);
+			update1(0, 1);
 			break;
 		case 2:
-			update2(0);
+			update1(0, 2);
 			break;
 		case 3:
-			update3(0);
+			update1(0, 3);
 			break;
 		case 4:
-			update4(0);
+			update1(0, 4);
 			break;
 		case 5:
-			update5(0);
+			update1(0, 5);
 			break;
 		case 6:
-			update6(0);
+			update1(0, 6);
 			break;
 		case 7:
-			update7(0);
+			update1(0, 7);
 			break;
 		case 8:
-			update8(0);
+			update1(0, 8);
 			break;
 		case 9:
-			update9(0);
+			update1(0, 9);
 			break;
 		case 10:
-			update10(0);
+			update1(0, 10);
 			break;
 		case 11:
-			update11(0);
+			update1(0, 11);
 			break;
 		case 12:
-			update12(0);
+			update1(0, 12);
 			break;
 		case 13:
-			update13(0);
+			update1(0, 13);
 			break;
 		case 14:
-			update14(0);
+			update1(0, 14);
 			break;
 		case 15:
 			update15(0);
@@ -296,7 +297,7 @@ function update0(input) {
     }
 }
 
-function update1(input) {
+function update1(input, index) {
     if(input == 0) {
         //fade in everything
         if(fadeState == 1) {
@@ -398,7 +399,7 @@ function update1(input) {
             ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h)
             ctx.font = "50px Above";
             ctx.textAlign = "center";
-            ctx.fillText(question2List[0], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.fillText(question2List[index - 1], canvas.width/2 + 150, canvas.height/2 - 150);
         }
         //draw eveything
         else if(fadeState == 7) {
@@ -409,7 +410,7 @@ function update1(input) {
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
-            ctx.fillText(question2List[0], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.fillText(question2List[index - 1], canvas.width/2 + 150, canvas.height/2 - 150);
         }
         //fade out incorrect bw
         else if(fadeState == 8) {
@@ -429,7 +430,7 @@ function update1(input) {
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
-            ctx.fillText(question2List[0], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.fillText(question2List[index - 1], canvas.width/2 + 150, canvas.height/2 - 150);
         }
         //hold
         else if(fadeState == 9) {
@@ -444,7 +445,7 @@ function update1(input) {
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
-            ctx.fillText(question2List[0], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.fillText(question2List[index - 1], canvas.width/2 + 150, canvas.height/2 - 150);
             timer ++;
         }
         //fade out everything
@@ -455,14 +456,14 @@ function update1(input) {
             else if(fadeAlpha <= 0.0) {
                 fadeAlpha = 0.0;
                 fadeState = 1;
-                state = [2, 0]
-                image = new CanvasImage("image2", 1, false);
+                state = [index + 1, 0]
+                image = new CanvasImage("image" + (index + 1), 1, false);
             }
             bestQualityImage.mouseOverUpdate();
             ctx.globalAlpha = fadeAlpha;
             ctx.font = "50px Above";
             ctx.textAlign = "center";
-            ctx.fillText(question2List[0], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.fillText(question2List[index - 1], canvas.width/2 + 150, canvas.height/2 - 150);
             ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
         }
