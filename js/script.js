@@ -209,46 +209,46 @@ function update() {
 			update0(0);
 			break;
 		case 1:
-			update1(0, 1);
+			update1(0, 0);
 			break;
 		case 2:
-			update1(0, 2);
+			update1(0, 1);
 			break;
 		case 3:
-			update1(0, 3);
+			update1(0, 2);
 			break;
 		case 4:
-			update1(0, 4);
+			update1(0, 3);
 			break;
 		case 5:
-			update1(0, 5);
+			update1(0, 4);
 			break;
 		case 6:
-			update1(0, 6);
+			update1(0, 5);
 			break;
 		case 7:
-			update1(0, 7);
+			update1(0, 6);
 			break;
 		case 8:
-			update1(0, 8);
+			update1(0, 7);
 			break;
 		case 9:
-			update1(0, 9);
+			update1(0, 8);
 			break;
 		case 10:
-			update1(0, 10);
+			update1(0, 9);
 			break;
 		case 11:
-			update1(0, 11);
+			update1(0, 10);
 			break;
 		case 12:
-			update1(0, 12);
+			update1(0, 11);
 			break;
 		case 13:
-			update1(0, 13);
+			update1(0, 12);
 			break;
 		case 14:
-			update1(0, 14);
+			update14(0);
 			break;
 		case 15:
 			update15(0);
@@ -278,7 +278,7 @@ function update0(input) {
                 fadeAlpha -= 0.05;
             }
             else if(fadeAlpha <= 0.0) {
-                fadeAlpha = 0.0;
+                fadeAlpha = 0.001;
                 fadeState = 1;
                 state = [1, 0];
             }
@@ -330,23 +330,26 @@ function update1(input, index) {
         }
         //fade out incorrect op
         else if(fadeState == 3) {
-            if(fadeAlpha > 0.0) {
-                fadeAlpha -= 0.05;
-            }
-            else if(fadeAlpha <= 0.0) {
-                fadeAlpha = 0.0;
+            if(fadeAlpha <= 0.05) {
+                fadeAlpha = 0;
                 fadeState = 4;
+            }
+            else {
+                fadeAlpha -= 0.05;
             }
             optimistImage.mouseOverUpdate();
             pessimistImage.mouseOverUpdate();
-            ctx.globalAlpha = fadeAlpha;
-            ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
             ctx.globalAlpha = 1.0;
             ctx.drawImage(optimistImage.img, optimistImage.x, optimistImage.y, optimistImage.w, optimistImage.h);
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
             ctx.fillText(question1, canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.globalAlpha = 1.0;
+            ctx.globalAlpha = fadeAlpha;
+            console.log(ctx.globalAlpha);
+            ctx.drawImage(pessimistImage.img, pessimistImage.x, pessimistImage.y, pessimistImage.w, pessimistImage.h)
+            ctx.globalAlpha = 1.0;
         }
         //hold
         else if(fadeState == 4) {
@@ -366,12 +369,12 @@ function update1(input, index) {
         }
         //fade out other text
         else if(fadeState == 5) {
-            if(fadeAlpha > 0.0) {
-                fadeAlpha -= 0.05;
-            }
-            else if(fadeAlpha <= 0.0) {
-                fadeAlpha = 0.0;
+            if(fadeAlpha <= 0.05) {
+                fadeAlpha = 0;
                 fadeState = 6;
+            }
+            else {
+                fadeAlpha -= 0.05;
             }
             optimistImage.mouseOverUpdate();
             ctx.globalAlpha = fadeAlpha;
@@ -399,7 +402,7 @@ function update1(input, index) {
             ctx.drawImage(worstQualityImage.img, worstQualityImage.x, worstQualityImage.y, worstQualityImage.w, worstQualityImage.h)
             ctx.font = "50px Above";
             ctx.textAlign = "center";
-            ctx.fillText(question2List[index - 1], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.fillText(question2List[index], canvas.width/2 + 150, canvas.height/2 - 150);
         }
         //draw eveything
         else if(fadeState == 7) {
@@ -410,16 +413,16 @@ function update1(input, index) {
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
-            ctx.fillText(question2List[index - 1], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.fillText(question2List[index], canvas.width/2 + 150, canvas.height/2 - 150);
         }
         //fade out incorrect bw
         else if(fadeState == 8) {
-            if(fadeAlpha > 0.0) {
-                fadeAlpha -= 0.05;
-            }
-            else if(fadeAlpha <= 0.0) {
-                fadeAlpha = 0.0;
+            if(fadeAlpha <= 0.05) {
+                fadeAlpha = 0;
                 fadeState = 9;
+            }
+            else {
+                fadeAlpha -= 0.05;
             }
             bestQualityImage.mouseOverUpdate();
             worstQualityImage.mouseOverUpdate();
@@ -430,7 +433,7 @@ function update1(input, index) {
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
-            ctx.fillText(question2List[index - 1], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.fillText(question2List[index], canvas.width/2 + 150, canvas.height/2 - 150);
         }
         //hold
         else if(fadeState == 9) {
@@ -445,25 +448,25 @@ function update1(input, index) {
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
             ctx.font = "50px Above";
             ctx.textAlign = "center";
-            ctx.fillText(question2List[index - 1], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.fillText(question2List[index], canvas.width/2 + 150, canvas.height/2 - 150);
             timer ++;
         }
         //fade out everything
         else if(fadeState == 10) {
-            if(fadeAlpha > 0.0) {
-                fadeAlpha -= 0.05;
-            }
-            else if(fadeAlpha <= 0.0) {
-                fadeAlpha = 0.0;
+            if(fadeAlpha <= 0.05) {
+                fadeAlpha = 0;
                 fadeState = 1;
-                state = [index + 1, 0]
-                image = new CanvasImage("image" + (index + 1), 1, false);
+                image = new CanvasImage("image" + (index + 2), 1, false)
+                state = [index + 2, 0];
+            }
+            else {
+                fadeAlpha -= 0.05;
             }
             bestQualityImage.mouseOverUpdate();
             ctx.globalAlpha = fadeAlpha;
             ctx.font = "50px Above";
             ctx.textAlign = "center";
-            ctx.fillText(question2List[index - 1], canvas.width/2 + 150, canvas.height/2 - 150);
+            ctx.fillText(question2List[index], canvas.width/2 + 150, canvas.height/2 - 150);
             ctx.drawImage(bestQualityImage.img, bestQualityImage.x, bestQualityImage.y, bestQualityImage.w, bestQualityImage.h);
             ctx.drawImage(image.img, image.x, image.y, image.w, image.h);
         }
@@ -515,12 +518,12 @@ function update14(input) {
         }
         //fade out incorrect op
         else if(fadeState == 3) {
-            if(fadeAlpha > 0.0) {
-                fadeAlpha -= 0.05;
-            }
-            else if(fadeAlpha <= 0.0) {
-                fadeAlpha = 0.0;
+            if(fadeAlpha <= 0.05) {
+                fadeAlpha = 0;
                 fadeState = 4;
+            }
+            else {
+                fadeAlpha -= 0.05;
             }
             optimistImage.mouseOverUpdate();
             pessimistImage.mouseOverUpdate();
@@ -552,12 +555,12 @@ function update14(input) {
         }
         //fade out other text
         else if(fadeState == 5) {
-            if(fadeAlpha > 0.0) {
-                fadeAlpha -= 0.05;
+            if(fadeAlpha <= 0.05) {
+                fadeAlpha = 0;
+                fadeState = 4;
             }
-            else if(fadeAlpha <= 0.0) {
-                fadeAlpha = 0.0;
-                fadeState = 6;
+            else {
+                fadeAlpha -= 0.05;
             }
             optimistImage.mouseOverUpdate();
             ctx.globalAlpha = fadeAlpha;
@@ -599,12 +602,12 @@ function update14(input) {
         }
         //fade out incorrect bw
         else if(fadeState == 8) {
-            if(fadeAlpha > 0.0) {
-                fadeAlpha -= 0.05;
+            if(fadeAlpha <= 0.05) {
+                fadeAlpha = 0;
+                fadeState = 4;
             }
-            else if(fadeAlpha <= 0.0) {
-                fadeAlpha = 0.0;
-                fadeState = 9;
+            else {
+                fadeAlpha -= 0.05;
             }
             bestQualityImage.mouseOverUpdate();
             worstQualityImage.mouseOverUpdate();
@@ -635,13 +638,12 @@ function update14(input) {
         }
         //fade out everything
         else if(fadeState == 10) {
-            if(fadeAlpha > 0.0) {
-                fadeAlpha -= 0.05;
+            if(fadeAlpha <= 0.05) {
+                fadeAlpha = 0;
+                fadeState = 4;
             }
-            else if(fadeAlpha <= 0.0) {
-                fadeAlpha = 0.0;
-                fadeState = 1;
-                state = [15, 0]
+            else {
+                fadeAlpha -= 0.05;
             }
             bestQualityImage.mouseOverUpdate();
             ctx.globalAlpha = fadeAlpha;
