@@ -50,7 +50,7 @@ function login(form) {
 	return false; 	// So the form does not submit.
 }
 function makeCall(form){
-	if (!window.phone) { alert("Login First!") };
+	if (!window.phone) alert("Login First!");
 	else phone.dial(form.number.value);
 	return false;
 }
